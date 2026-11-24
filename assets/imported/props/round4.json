@@ -1,0 +1,314 @@
+{
+ "round": 4,
+ "generated": "2026-11-10 (UTC+8)",
+ "type": "2D painted images only (no 3D models)",
+ "pixel_size_m_per_px": 0.00386,
+ "scale_rule": "world size = px × 0.00386 m (沈砚 1.70 m = 440 px, characters_v3.json). Prop sprites are BILLBOARD_FIXED_Y cards like characters: the named vertical measure is scaled to its real height.",
+ "anchor_rule": "anchor_foot = ground contact point at the base center, in that PNG's pixel coords; y-sort by anchor_foot; shadow png has the same canvas and is placed at the same position on the ground layer.",
+ "enemy_battle": {
+  "idle": {
+   "file": "enemy_liheng_battle_idle_left_r4.png",
+   "size": [
+    833,
+    1126
+   ],
+   "anchor_foot": [
+    517,
+    1096
+   ],
+   "ground_y": 1095,
+   "center_x": 553,
+   "pixel_size": 0.00386,
+   "purpose": "Chapter-1 battle enemy 厉横 idle, facing left (stands on the right side). Only enemy per battle-v1-godot.md (1v1).",
+   "source": "byte copy of characters/npc/liheng_battle_idle_left_v3b.png (round 3b, hand-drawn left-facing, not mirrored)",
+   "md5": "0b2c00a68c4ff6faed144a8f55733ad4",
+   "md5_matches_source": true
+  },
+  "attack": {
+   "file": "enemy_liheng_battle_attack_left_r4.png",
+   "size": [
+    1133,
+    850
+   ],
+   "anchor_foot": [
+    724,
+    820
+   ],
+   "ground_y": 819,
+   "center_x": 752,
+   "pixel_size": 0.00386,
+   "purpose": "Chapter-1 battle enemy 厉横 attack, facing left (stands on the right side). Only enemy per battle-v1-godot.md (1v1).",
+   "source": "byte copy of characters/npc/liheng_battle_attack_left_v3b.png (round 3b, hand-drawn left-facing, not mirrored)",
+   "md5": "da3d3ccaac8f1e968456e09826be8962",
+   "md5_matches_source": true
+  },
+  "charge": {
+   "file": "enemy_liheng_battle_charge_left_r4.png",
+   "size": [
+    844,
+    1112
+   ],
+   "anchor_foot": [
+    421,
+    1081
+   ],
+   "ground_y": 1080,
+   "center_x": 450,
+   "pixel_size": 0.00386,
+   "purpose": "Chapter-1 battle enemy 厉横 charge, facing left (stands on the right side). Only enemy per battle-v1-godot.md (1v1).",
+   "source": "byte copy of characters/npc/liheng_battle_charge_left_v3b.png (round 3b, hand-drawn left-facing, not mirrored)",
+   "md5": "93a9418cbcd7355e418df7bd38aaa8c2",
+   "md5_matches_source": true
+  }
+ },
+ "props": {
+  "stonelantern": {
+   "file": "prop_stonelantern_r4.png",
+   "shadow": "prop_stonelantern_shadow_r4.png",
+   "size": [
+    506,
+    625
+   ],
+   "anchor_foot": [
+    125,
+    406
+   ],
+   "scale_from_raw": 0.4659,
+   "height_measure": "whole object: finial top to lowest base stone/grass",
+   "real_height_m": 1.5,
+   "bbox_height_px": 413,
+   "bbox_width_px": 185,
+   "bbox_height_m": 1.59,
+   "bbox_width_m": 0.71,
+   "top_above_anchor_m": 1.45,
+   "chroma_resid": [
+    0,
+    45838
+   ],
+   "shadow_note": "same canvas as the prop, aligned to it; color (20,25,15), max alpha 106, offset to bottom-right (light from top-left), like *_shadow.png",
+   "shadow_edge_alpha_max": 0,
+   "pixel_size": 0.00386,
+   "purpose": "exploration prop 石灯",
+   "raw": "raw/stonelantern_raw.jpg"
+  },
+  "fence": {
+   "file": "prop_fence_r4.png",
+   "shadow": "prop_fence_shadow_r4.png",
+   "size": [
+    886,
+    726
+   ],
+   "anchor_foot": [
+    334,
+    405
+   ],
+   "scale_from_raw": 0.7642,
+   "height_measure": "near (left) post: top cap to ground",
+   "real_height_m": 1.0,
+   "bbox_height_px": 514,
+   "bbox_width_px": 565,
+   "bbox_height_m": 1.98,
+   "bbox_width_m": 2.18,
+   "top_above_anchor_m": 1.44,
+   "chroma_resid": [
+    0,
+    107923
+   ],
+   "shadow_note": "same canvas as the prop, aligned to it; color (20,25,15), max alpha 106, offset to bottom-right (light from top-left), like *_shadow.png",
+   "shadow_edge_alpha_max": 0,
+   "pixel_size": 0.00386,
+   "purpose": "exploration prop 篱笆 segment (runs lower-left to upper-right; anchor = middle post base)",
+   "raw": "raw/fence_raw.jpg"
+  },
+  "crate": {
+   "file": "prop_crate_r4.png",
+   "shadow": "prop_crate_shadow_r4.png",
+   "size": [
+    557,
+    476
+   ],
+   "anchor_foot": [
+    149,
+    225
+   ],
+   "scale_from_raw": 0.3493,
+   "height_measure": "near vertical corner edge",
+   "real_height_m": 0.6,
+   "bbox_height_px": 266,
+   "bbox_width_px": 236,
+   "bbox_height_m": 1.03,
+   "bbox_width_m": 0.91,
+   "top_above_anchor_m": 0.75,
+   "chroma_resid": [
+    0,
+    45869
+   ],
+   "shadow_note": "same canvas as the prop, aligned to it; color (20,25,15), max alpha 106, offset to bottom-right (light from top-left), like *_shadow.png",
+   "shadow_edge_alpha_max": 0,
+   "pixel_size": 0.00386,
+   "purpose": "exploration prop 木箱",
+   "raw": "raw/crate_raw.jpg"
+  },
+  "signpost": {
+   "file": "prop_signpost_r4.png",
+   "shadow": "prop_signpost_shadow_r4.png",
+   "size": [
+    552,
+    700
+   ],
+   "anchor_foot": [
+    150,
+    455
+   ],
+   "scale_from_raw": 0.5545,
+   "height_measure": "whole object: roof plank top to base stones",
+   "real_height_m": 1.8,
+   "bbox_height_px": 489,
+   "bbox_width_px": 231,
+   "bbox_height_m": 1.89,
+   "bbox_width_m": 0.89,
+   "top_above_anchor_m": 1.64,
+   "chroma_resid": [
+    0,
+    50376
+   ],
+   "shadow_note": "same canvas as the prop, aligned to it; color (20,25,15), max alpha 106, offset to bottom-right (light from top-left), like *_shadow.png",
+   "shadow_edge_alpha_max": 0,
+   "pixel_size": 0.00386,
+   "purpose": "exploration prop 路牌 (signs: 竹林 / 村口, original text)",
+   "raw": "raw/signpost_raw.jpg"
+  },
+  "well": {
+   "file": "prop_well_r4.png",
+   "shadow": "prop_well_shadow_r4.png",
+   "size": [
+    830,
+    928
+   ],
+   "anchor_foot": [
+    284,
+    602
+   ],
+   "scale_from_raw": 0.8636,
+   "height_measure": "front stone rim: rim top to ground",
+   "real_height_m": 0.9,
+   "bbox_height_px": 716,
+   "bbox_width_px": 508,
+   "bbox_height_m": 2.76,
+   "bbox_width_m": 1.96,
+   "top_above_anchor_m": 2.2,
+   "chroma_resid": [
+    0,
+    230386
+   ],
+   "shadow_note": "same canvas as the prop, aligned to it; color (20,25,15), max alpha 106, offset to bottom-right (light from top-left), like *_shadow.png",
+   "shadow_edge_alpha_max": 0,
+   "pixel_size": 0.00386,
+   "purpose": "exploration prop 水井 (stone rim + wooden windlass frame)",
+   "raw": "raw/well_raw.jpg"
+  }
+ },
+ "icons": {
+  "attack": {
+   "file": "icon_attack_r4.png",
+   "size": [
+    128,
+    128
+   ],
+   "chroma_resid": [
+    0,
+    12030
+   ],
+   "purpose": "player action 普攻",
+   "anchor": "none (UI icon, centered disc)"
+  },
+  "sword_skill": {
+   "file": "icon_sword_skill_r4.png",
+   "size": [
+    128,
+    128
+   ],
+   "chroma_resid": [
+    0,
+    11821
+   ],
+   "purpose": "player action 剑技",
+   "anchor": "none (UI icon, centered disc)"
+  },
+  "guard": {
+   "file": "icon_guard_r4.png",
+   "size": [
+    128,
+    128
+   ],
+   "chroma_resid": [
+    0,
+    10635
+   ],
+   "purpose": "player action 守势",
+   "anchor": "none (UI icon, centered disc)"
+  },
+  "potion": {
+   "file": "icon_potion_r4.png",
+   "size": [
+    128,
+    128
+   ],
+   "chroma_resid": [
+    0,
+    11869
+   ],
+   "purpose": "player action 回复药 (also the item icon)",
+   "anchor": "none (UI icon, centered disc)"
+  },
+  "enemy_attack": {
+   "file": "icon_enemy_attack_r4.png",
+   "size": [
+    128,
+    128
+   ],
+   "chroma_resid": [
+    0,
+    12083
+   ],
+   "purpose": "enemy intent 普攻",
+   "anchor": "none (UI icon, centered disc)"
+  },
+  "enemy_charge": {
+   "file": "icon_enemy_charge_r4.png",
+   "size": [
+    128,
+    128
+   ],
+   "chroma_resid": [
+    0,
+    10994
+   ],
+   "purpose": "enemy intent 蓄力",
+   "anchor": "none (UI icon, centered disc)"
+  },
+  "enemy_heavy": {
+   "file": "icon_enemy_heavy_r4.png",
+   "size": [
+    128,
+    128
+   ],
+   "chroma_resid": [
+    0,
+    11591
+   ],
+   "purpose": "enemy intent 重击",
+   "anchor": "none (UI icon, centered disc)"
+  }
+ },
+ "previews": {
+  "props": "props_preview_r4.jpg",
+  "icons": "icons_preview_r4.jpg"
+ },
+ "item_status": {
+  "1_enemy_copies": "done",
+  "2_props": "done",
+  "3_icons": "done"
+ },
+ "icons_note": "player icons share the ice-blue accent, enemy-intent icons the crimson accent; same rice-paper disc + ink ring style. raw: raw/icons_player_raw.jpg, raw/icons_enemy_raw.jpg"
+}

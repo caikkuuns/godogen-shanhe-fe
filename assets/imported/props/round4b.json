@@ -1,0 +1,39 @@
+{
+ "round": "4b",
+ "generated": "2026-11-11 (UTC+8)",
+ "type": "2D painted images only",
+ "pixel_size_m_per_px": 0.00386,
+ "props": {
+  "stonelantern": {
+   "file": "prop_stonelantern_r4b.png",
+   "shadow": "prop_stonelantern_shadow_r4b.png",
+   "size": [
+    506,
+    625
+   ],
+   "anchor_foot": [
+    125,
+    406
+   ],
+   "pixel_size": 0.00386,
+   "real_height_m": 1.5,
+   "height_measure": "finial top to bottom of the Sumeru base stone",
+   "scale_from_raw": 0.4456,
+   "top_above_anchor_m": 1.41,
+   "bbox_height_m": 1.55,
+   "bbox_width_m": 0.56,
+   "edges_clear": true,
+   "shadow_edge_alpha_max": 0,
+   "chroma_resid": [
+    0,
+    31738
+   ],
+   "raw": "raw/stonelantern_r4b_raw.jpg",
+   "purpose": "exploration prop 石灯幢 (Chinese stone lamp pillar): Sumeru base, square lamp chamber, small pavilion roof cap; replaces prop_stonelantern_r4.png (Japanese-looking cap)",
+   "same_as_r4": "canvas, anchor, real height, view angle, light and shadow method are the same as prop_stonelantern_r4.png"
+  }
+ },
+ "previews": {
+  "props": "props_preview_r4b.jpg"
+ }
+}

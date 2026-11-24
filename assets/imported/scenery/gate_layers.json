@@ -1,0 +1,100 @@
+{
+ "canvas": [
+  911,
+  886
+ ],
+ "origin": "top-left, all layers same canvas",
+ "anchor": [
+  527,
+  744
+ ],
+ "layers": [
+  {
+   "file": "gate_L0_ground.png",
+   "z": "ground, always below characters"
+  },
+  {
+   "file": "gate_L1_back.png",
+   "z": "back pillars/walls; draw before characters whose foot y > anchor_back_y",
+   "sort_y": 634
+  },
+  {
+   "file": "gate_L2_front.png",
+   "z": "roof + front pillars; draw above characters inside gateway, y-sort by anchor otherwise",
+   "sort_y": 804
+  }
+ ],
+ "walkable_gateway_polygon": [
+  [
+   392,
+   640
+  ],
+  [
+   527,
+   610
+  ],
+  [
+   590,
+   640
+  ],
+  [
+   590,
+   708
+  ],
+  [
+   692,
+   804
+  ],
+  [
+   492,
+   849
+  ],
+  [
+   392,
+   794
+  ]
+ ],
+ "blocked_pillar_bases": [
+  [
+   [
+    132,
+    644
+   ],
+   [
+    272,
+    814
+   ]
+  ],
+  [
+   [
+    282,
+    634
+   ],
+   [
+    387,
+    804
+   ]
+  ],
+  [
+   [
+    597,
+    564
+   ],
+   [
+    707,
+    704
+   ]
+  ],
+  [
+   [
+    672,
+    554
+   ],
+   [
+    802,
+    689
+   ]
+  ]
+ ],
+ "note": "coordinates estimated by eye; walkable polygon trimmed 2026-11-08 to not overlap pillar boxes (x<=387 left, x>=597 for y<=704 right); verify in engine"
+}
