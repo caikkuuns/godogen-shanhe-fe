@@ -1,0 +1,203 @@
+[
+ {
+  "file": "shenyan.glb",
+  "triangles": 19555,
+  "vertices": 21575,
+  "bones": 19,
+  "clips": [
+   "attack_Rig",
+   "down_Rig",
+   "hit_Rig",
+   "idle_Rig",
+   "walk_Rig"
+  ],
+  "meshes": 4,
+  "islands_welded": 19,
+  "biggest_island_frac": 0.1326,
+  "body_bbox_z": [
+   -0.0,
+   1.7
+  ],
+  "body_height_m": 1.7,
+  "design_height_m": 1.7,
+  "has_color0": false,
+  "texture": {
+   "name": "shenyan_albedo_fixed",
+   "size": [
+    2048,
+    2048
+   ],
+   "colorspace": "sRGB",
+   "center_rgb_raw": [
+    0.149,
+    0.204,
+    0.306
+   ]
+  },
+  "file_bytes": 5263900
+ },
+ {
+  "file": "shenyan_script.glb",
+  "triangles": 15008,
+  "vertices": 8153,
+  "bones": 17,
+  "clips": [
+   "idle_ShenyanArmature",
+   "walk_ShenyanArmature"
+  ],
+  "meshes": 85,
+  "islands_welded": 85,
+  "biggest_island_frac": 1.0,
+  "body_bbox_z": [
+   0.444,
+   1.025
+  ],
+  "body_height_m": 0.581,
+  "design_height_m": 1.7,
+  "has_color0": false,
+  "texture": null,
+  "file_bytes": 539828
+ },
+ {
+  "file": "linzhaowan.glb",
+  "triangles": 17309,
+  "vertices": 17963,
+  "bones": 19,
+  "clips": [
+   "idle_Rig",
+   "walk_Rig"
+  ],
+  "meshes": 5,
+  "islands_welded": 21,
+  "biggest_island_frac": 0.1463,
+  "body_bbox_z": [
+   -0.001,
+   1.63
+  ],
+  "body_height_m": 1.63,
+  "design_height_m": 1.63,
+  "has_color0": false,
+  "texture": {
+   "name": "LinZhaoWanSword_sheath_tex",
+   "size": [
+    16,
+    16
+   ],
+   "colorspace": "sRGB",
+   "center_rgb_raw": [
+    0.957,
+    0.925,
+    0.914
+   ]
+  },
+  "file_bytes": 5171508
+ },
+ {
+  "file": "liheng.glb",
+  "triangles": 13754,
+  "vertices": 15764,
+  "bones": 19,
+  "clips": [
+   "attack_Rig",
+   "down_Rig",
+   "hit_Rig",
+   "idle_Rig",
+   "walk_Rig"
+  ],
+  "meshes": 3,
+  "islands_welded": 25,
+  "biggest_island_frac": 0.5568,
+  "body_bbox_z": [
+   0.0,
+   1.85
+  ],
+  "body_height_m": 1.85,
+  "design_height_m": 1.85,
+  "has_color0": false,
+  "texture": {
+   "name": "DaoBlade_tex",
+   "size": [
+    16,
+    16
+   ],
+   "colorspace": "sRGB",
+   "center_rgb_raw": [
+    0.247,
+    0.231,
+    0.227
+   ]
+  },
+  "file_bytes": 4527448
+ },
+ {
+  "file": "gesancheng.glb",
+  "triangles": 15277,
+  "vertices": 16366,
+  "bones": 19,
+  "clips": [
+   "idle_Rig",
+   "walk_Rig"
+  ],
+  "meshes": 4,
+  "islands_welded": 13,
+  "biggest_island_frac": 0.3621,
+  "body_bbox_z": [
+   -0.0,
+   1.651
+  ],
+  "body_height_m": 1.651,
+  "design_height_m": 1.65,
+  "has_color0": false,
+  "texture": {
+   "name": "ScaleRod_tex",
+   "size": [
+    16,
+    16
+   ],
+   "colorspace": "sRGB",
+   "center_rgb_raw": [
+    0.176,
+    0.137,
+    0.114
+   ]
+  },
+  "file_bytes": 4615288
+ },
+ {
+  "file": "yaoxing_dashou.glb",
+  "triangles": 14099,
+  "vertices": 16128,
+  "bones": 19,
+  "clips": [
+   "attack_Rig",
+   "down_Rig",
+   "hit_Rig",
+   "idle_Rig",
+   "walk_Rig"
+  ],
+  "meshes": 3,
+  "islands_welded": 18,
+  "biggest_island_frac": 0.4167,
+  "body_bbox_z": [
+   -0.0,
+   1.72
+  ],
+  "body_height_m": 1.72,
+  "design_height_m": 1.72,
+  "has_color0": false,
+  "texture": {
+   "name": "yaoxing_dashou_albedo",
+   "size": [
+    2048,
+    2048
+   ],
+   "colorspace": "sRGB",
+   "center_rgb_raw": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "file_bytes": 5022068
+ }
+]

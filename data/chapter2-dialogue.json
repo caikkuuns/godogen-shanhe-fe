@@ -1,0 +1,2482 @@
+{
+ "schemaVersion": 1,
+ "id": "shanhe.dialogue.chapter2",
+ "contentVersion": "chapter2-dialogue-v1.2",
+ "language": "zh-Hans",
+ "status": "v1.2 (玩法策划 2026-11-16): removed ch2_gate_girl_go / ch2_gg_01 per be-decisions #29 (林照晚 is only at yiting during toldByLiheng; nav line already in ch2_lt_07 / ch2_lp_01); v1.1 (2026-11-11) design accepted by 奶蛙; landscape 1920x1080; ch1 side quest runs in parallel with ch2; speaker narrator = black-screen transition narration (needs dev support); loads together with dialogue-v1.json; interactionPoints village.zhoubo / village.mingcheng are the full merged lists (v1 ids + ch2 ids) and replace v1's lists when both files are loaded; ids/quest states/scenes need mapping to implementation; see plan/chapter2.md",
+ "evaluation": {
+  "conditionsList": "AND; empty list = true",
+  "logic": "three-valued (true/false/unknown); unknown => false at top level",
+  "unknownSources": [
+   "quest state 'unknown' (main unreadable)",
+   "side state 'disabled' (corrupt/unsupported block)",
+   "quest state 'unknown' for main.ch2Herbs (main.zhouCommission unreadable)",
+   "side state 'disabled' for side.ch2Spar / side.ch2Tea (corrupt/unsupported block)"
+  ],
+  "missingFlag": "null",
+  "selection": "interactionPoints[point].dialogues in order, first whose conditions are true; none => nothing plays",
+  "commit": "setFlags+effects accumulated along path, committed only when an end node is fully reached; cancel discards",
+  "setFlagsNamespace": "dlg.",
+  "nodeConditionsFalse": "treat as cancel (no commit)"
+ },
+ "states": {
+  "main.zhouCommission": [
+   "notAccepted",
+   "accepted",
+   "delivered",
+   "unknown"
+  ],
+  "side.bambooCompanions": [
+   "locked",
+   "available",
+   "accepted",
+   "girlMet",
+   "bothMet",
+   "ready",
+   "completed",
+   "legacyClosed",
+   "disabled"
+  ],
+  "main.ch2Herbs": [
+   "locked",
+   "available",
+   "accepted",
+   "toldByLiheng",
+   "stationCleared",
+   "completed",
+   "unknown"
+  ],
+  "side.ch2Spar": [
+   "locked",
+   "available",
+   "completed",
+   "disabled"
+  ],
+  "side.ch2Tea": [
+   "locked",
+   "available",
+   "accepted",
+   "told",
+   "completed",
+   "disabled"
+  ]
+ },
+ "flagsRead": {
+  "battle.ch2_thug.won": "set by battle system on victory over 药行打手 (read-only for dialogue)",
+  "battle.ch2_gesancheng.won": "set by battle system on victory over 葛三秤 (read-only for dialogue)",
+  "battle.ch2_liheng_spar.won": "set by battle system on victory in 厉横 spar (read-only for dialogue)",
+  "dlg.ch2.thugPostSeen": "dialogue-local seen flag",
+  "dlg.ch2.gesanchengPostSeen": "dialogue-local seen flag",
+  "dlg.ch2.sparPostSeen": "dialogue-local seen flag",
+  "dlg.ch2.lihengVouched": "dialogue-local: player vouched for 厉横 in ch2_finale (written only, hook for chapter 3)"
+ },
+ "effectTypes": {
+  "questEvent": {
+   "quest": "string",
+   "event": "string"
+  },
+  "startBattle": {
+   "battleId": "string"
+  }
+ },
+ "speakers": {
+  "shenyan": {
+   "displayName": "沈砚",
+   "nameStatus": "existing",
+   "appearance": "白衣背剑少年（男主）",
+   "panelSide": "left",
+   "portraits": {
+    "default": {
+     "key": "portrait.shenyan.default",
+     "sourceFile": "docs/ref-characters/shenyan_portrait.png",
+     "resPath": null
+    },
+    "serious": {
+     "key": "portrait.shenyan.serious",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "smile": {
+     "key": "portrait.shenyan.smile",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "linzhaowan": {
+   "displayName": "林照晚",
+   "nameStatus": "tentative",
+   "appearance": "粉衣背剑少女（女主）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.linzhaowan.default",
+     "sourceFile": "docs/ref-characters/linzhaowan_portrait.png",
+     "resPath": null
+    },
+    "smile": {
+     "key": "portrait.linzhaowan.smile",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "mingcheng": {
+   "displayName": "明澄",
+   "nameStatus": "tentative",
+   "appearance": "年轻僧人（沈砚好兄弟）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.mingcheng.default",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "smile": {
+     "key": "portrait.mingcheng.smile",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "zhoubo": {
+   "displayName": "周伯",
+   "nameStatus": "tentative",
+   "appearance": "褐衣老人（拟对应）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.zhoubo.default",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "smile": {
+     "key": "portrait.zhoubo.smile",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "liheng": {
+   "displayName": "厉横",
+   "nameStatus": "tentative",
+   "appearance": "壮汉（拟对应）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.liheng.default",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "angry": {
+     "key": "portrait.liheng.angry",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "gesancheng": {
+   "displayName": "葛三秤",
+   "nameStatus": "tentative",
+   "appearance": "瘦高药贩头目，灰褐短褂，腰挂铁秤杆与链秤砣（第二章新角色）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.gesancheng.default",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "angry": {
+     "key": "portrait.gesancheng.angry",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "narrator": {
+   "displayName": "旁白",
+   "nameStatus": "tentative",
+   "appearance": "无立绘。v1.1：出现此说话人的节点表示黑屏转场旁白（需开发支持黑屏转场；不支持时按只显示名字的普通台词显示）",
+   "panelSide": "left",
+   "portraits": {
+    "default": {
+     "key": "transition.fade_black",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "yaohang_dashou": {
+   "displayName": "药行打手",
+   "nameStatus": "tentative",
+   "appearance": "短打汉子，手持短棍（第二章杂兵，可仅用名字面板）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.yaohang_dashou.default",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  }
+ },
+ "interactionPoints": {
+  "village.zhoubo": {
+   "scene": "village",
+   "dialogues": [
+    "zhou_main_offer",
+    "bc_zhou_invite",
+    "zhou_main_deliver",
+    "zhou_main_progress",
+    "bc_finale",
+    "ch2_zhou_offer_companions",
+    "ch2_zhou_offer",
+    "zhou_side_pending_girl",
+    "zhou_side_pending_monk",
+    "ch2_zhou_progress",
+    "ch2_zhou_epilogue",
+    "bc_finale_replay",
+    "zhou_legacy_closed",
+    "zhou_idle"
+   ]
+  },
+  "village.mingcheng": {
+   "scene": "village",
+   "dialogues": [
+    "bc_monk_join",
+    "bc_monk_wait",
+    "bc_monk_ready",
+    "ch2_tea_offer",
+    "ch2_tea_return",
+    "ch2_tea_wait",
+    "ch2_monk_after",
+    "bc_monk_after",
+    "monk_idle"
+   ]
+  },
+  "gate.liheng": {
+   "scene": "gate",
+   "dialogues": [
+    "ch2_gate_prebattle_known",
+    "ch2_gate_prebattle_new",
+    "ch2_gate_liheng_tell",
+    "ch2_finale",
+    "ch2_spar_settle",
+    "ch2_tea_liheng",
+    "ch2_spar_offer",
+    "ch2_liheng_progress",
+    "ch2_liheng_after",
+    "ch2_liheng_idle"
+   ]
+  },
+  "gate.linzhaowan": {
+   "scene": "gate",
+   "dialogues": [
+    "ch2_gate_girl_bc_meet",
+    "ch2_gate_girl_wait",
+    "ch2_gate_girl_after",
+    "ch2_gate_girl_idle"
+   ]
+  },
+  "yiting.gesancheng": {
+   "scene": "yiting",
+   "dialogues": [
+    "ch2_station_prebattle",
+    "ch2_gesancheng_defeated_idle",
+    "ch2_gesancheng_idle"
+   ]
+  },
+  "yiting.linzhaowan": {
+   "scene": "yiting",
+   "dialogues": [
+    "ch2_station_recover",
+    "ch2_station_girl_wait",
+    "ch2_station_girl_after",
+    "ch2_station_girl_idle"
+   ]
+  },
+  "battle_return.ch2_thug_victory": {
+   "scene": "battle_return",
+   "dialogues": [
+    "ch2_thug_postbattle"
+   ]
+  },
+  "battle_return.ch2_gesancheng_victory": {
+   "scene": "battle_return",
+   "dialogues": [
+    "ch2_gesancheng_postbattle"
+   ]
+  },
+  "battle_return.ch2_liheng_spar_victory": {
+   "scene": "battle_return",
+   "dialogues": [
+    "ch2_spar_postbattle"
+   ]
+  }
+ },
+ "dialogues": [
+  {
+   "id": "ch2_zhou_offer_companions",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "ch2_zc_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "available"
+    },
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "completed"
+    }
+   ],
+   "replayable": false,
+   "note": "M1 主线二接取（第一章支线已完成版）：available→accepted。林照晚已同行过，周伯转述她先走一步。v1.1：结尾加黑屏转场旁白 ch2_zc_07（需开发支持黑屏转场），之后林照晚在竹林隐藏、在山门出现"
+  },
+  {
+   "id": "ch2_zhou_offer",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "ch2_zo_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "available"
+    }
+   ],
+   "replayable": false,
+   "note": "M1 主线二接取（通用版：第一章支线未完成/legacyClosed/停用）：available→accepted。不提同行旧事。v1.1：结尾加黑屏转场旁白 ch2_zo_06（需开发支持黑屏转场）；第一章支线可与本章并行"
+  },
+  {
+   "id": "ch2_zhou_progress",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "ch2_zp_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "in": [
+      "accepted",
+      "toldByLiheng",
+      "stationCleared"
+     ]
+    }
+   ],
+   "replayable": true,
+   "note": "主线二进行中重复短台词（无 effect）"
+  },
+  {
+   "id": "ch2_zhou_epilogue",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "ch2_ze_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "completed"
+    }
+   ],
+   "replayable": true,
+   "note": "主线二完成后周伯重复台词（无 effect，不授奖）"
+  },
+  {
+   "id": "ch2_gate_prebattle_known",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_gk_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "accepted"
+    },
+    {
+     "not": {
+      "flag": "battle.ch2_thug.won",
+      "equals": true
+     }
+    },
+    {
+     "quest": "side.bambooCompanions",
+     "in": [
+      "girlMet",
+      "bothMet",
+      "ready",
+      "completed"
+     ]
+    }
+   ],
+   "replayable": true,
+   "note": "M2 战前（已相识版；v1.1 条件放宽为第一章支线 girlMet/bothMet/ready/completed，以支持并行）：林照晚当面质问厉横，打手冲出→startBattle ch2_thug。失败后可再次触发；再战不重播本对话"
+  },
+  {
+   "id": "ch2_gate_prebattle_new",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_gn_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "accepted"
+    },
+    {
+     "not": {
+      "flag": "battle.ch2_thug.won",
+      "equals": true
+     }
+    }
+   ],
+   "replayable": true,
+   "note": "M2 战前（初见版：第一章未与林照晚相识/支线停用）。少女自报姓名前用 nameOverride"
+  },
+  {
+   "id": "ch2_thug_postbattle",
+   "trigger": {
+    "scene": "battle_return",
+    "point": "battle_return.ch2_thug_victory"
+   },
+   "entry": "ch2_tp_01",
+   "conditions": [
+    {
+     "flag": "battle.ch2_thug.won",
+     "equals": true
+    },
+    {
+     "not": {
+      "flag": "dlg.ch2.thugPostSeen",
+      "equals": true
+     }
+    }
+   ],
+   "replayable": false,
+   "note": "战后一次性：胜利≠推进主线，不发 questEvent；主线推进在 ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_gate_liheng_tell",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_lt_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "accepted"
+    },
+    {
+     "flag": "battle.ch2_thug.won",
+     "equals": true
+    }
+   ],
+   "replayable": false,
+   "note": "M2 收尾：厉横交代葛三秤与旧驿亭；accepted→toldByLiheng（守卫：battle.ch2_thug.won）"
+  },
+  {
+   "id": "ch2_station_prebattle",
+   "trigger": {
+    "scene": "yiting",
+    "point": "yiting.gesancheng"
+   },
+   "entry": "ch2_sp_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "toldByLiheng"
+    },
+    {
+     "not": {
+      "flag": "battle.ch2_gesancheng.won",
+      "equals": true
+     }
+    }
+   ],
+   "replayable": true,
+   "note": "M3 战前：与葛三秤对峙→startBattle ch2_gesancheng。失败可再次触发"
+  },
+  {
+   "id": "ch2_gesancheng_defeated_idle",
+   "trigger": {
+    "scene": "yiting",
+    "point": "yiting.gesancheng"
+   },
+   "entry": "ch2_gd_01",
+   "conditions": [
+    {
+     "flag": "battle.ch2_gesancheng.won",
+     "equals": true
+    }
+   ],
+   "replayable": true,
+   "note": "v1.1 已定：战后葛三秤被厉横押下山离场（按 battle.ch2_gesancheng.won 隐藏，参照厉横 set_dormant）。本段只作保险，正常流程不会触发"
+  },
+  {
+   "id": "ch2_gesancheng_idle",
+   "trigger": {
+    "scene": "yiting",
+    "point": "yiting.gesancheng"
+   },
+   "entry": "ch2_gi_01",
+   "conditions": [],
+   "replayable": true,
+   "note": "兜底：主线未到时不开战"
+  },
+  {
+   "id": "ch2_gesancheng_postbattle",
+   "trigger": {
+    "scene": "battle_return",
+    "point": "battle_return.ch2_gesancheng_victory"
+   },
+   "entry": "ch2_gp_01",
+   "conditions": [
+    {
+     "flag": "battle.ch2_gesancheng.won",
+     "equals": true
+    },
+    {
+     "not": {
+      "flag": "dlg.ch2.gesanchengPostSeen",
+      "equals": true
+     }
+    }
+   ],
+   "replayable": false,
+   "note": "战后一次性：不发 questEvent；夺回药包在 ch2_station_recover。v1.1：结尾加厉横押葛三秤下山 + 黑屏转场旁白 ch2_gp_05（需开发支持黑屏转场）。离场本身由 battle.ch2_gesancheng.won 驱动（葛三秤 set_dormant），不依赖本段是否看完"
+  },
+  {
+   "id": "ch2_station_recover",
+   "trigger": {
+    "scene": "yiting",
+    "point": "yiting.linzhaowan"
+   },
+   "entry": "ch2_sr_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "toldByLiheng"
+    },
+    {
+     "flag": "battle.ch2_gesancheng.won",
+     "equals": true
+    }
+   ],
+   "replayable": false,
+   "note": "M3 收尾：林照晚取回药包，第一次正式道谢；toldByLiheng→stationCleared（守卫：battle.ch2_gesancheng.won）。药包只是剧情物，不进背包"
+  },
+  {
+   "id": "ch2_station_girl_wait",
+   "trigger": {
+    "scene": "yiting",
+    "point": "yiting.linzhaowan"
+   },
+   "entry": "ch2_sw_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "toldByLiheng"
+    }
+   ],
+   "replayable": true,
+   "note": "M3 未打赢葛三秤时林照晚的重复台词"
+  },
+  {
+   "id": "ch2_station_girl_after",
+   "trigger": {
+    "scene": "yiting",
+    "point": "yiting.linzhaowan"
+   },
+   "entry": "ch2_sa_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "in": [
+      "stationCleared",
+      "completed"
+     ]
+    }
+   ],
+   "replayable": true,
+   "note": "取回药包后的重复台词"
+  },
+  {
+   "id": "ch2_station_girl_idle",
+   "trigger": {
+    "scene": "yiting",
+    "point": "yiting.linzhaowan"
+   },
+   "entry": "ch2_si_01",
+   "conditions": [],
+   "replayable": true,
+   "note": "兜底"
+  },
+  {
+   "id": "ch2_finale",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_fn_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "stationCleared"
+    }
+   ],
+   "replayable": false,
+   "note": "M4 章节收束：三人关系落点；stationCleared→completed。两条分支各一个 end 节点，选“替他作保”额外记 dlg.ch2.lihengVouched 供第三章参考"
+  },
+  {
+   "id": "ch2_spar_settle",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_ss_01",
+   "conditions": [
+    {
+     "quest": "side.ch2Spar",
+     "equals": "available"
+    },
+    {
+     "flag": "battle.ch2_liheng_spar.won",
+     "equals": true
+    }
+   ],
+   "replayable": false,
+   "note": "支线A 结算：available→completed，奖励【占位A】由状态机在一致性保存成功后提示，本数据不写奖励"
+  },
+  {
+   "id": "ch2_spar_offer",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_so_01",
+   "conditions": [
+    {
+     "quest": "side.ch2Spar",
+     "equals": "available"
+    },
+    {
+     "not": {
+      "flag": "battle.ch2_liheng_spar.won",
+      "equals": true
+     }
+    }
+   ],
+   "replayable": true,
+   "note": "支线A 邀战：选“来”→startBattle ch2_liheng_spar；选“改日”无 effect。输了回快照、无惩罚，可再邀"
+  },
+  {
+   "id": "ch2_spar_postbattle",
+   "trigger": {
+    "scene": "battle_return",
+    "point": "battle_return.ch2_liheng_spar_victory"
+   },
+   "entry": "ch2_sb_01",
+   "conditions": [
+    {
+     "flag": "battle.ch2_liheng_spar.won",
+     "equals": true
+    },
+    {
+     "not": {
+      "flag": "dlg.ch2.sparPostSeen",
+      "equals": true
+     }
+    }
+   ],
+   "replayable": false,
+   "note": "切磋胜利返回一次性台词；不发 questEvent，结算在 ch2_spar_settle"
+  },
+  {
+   "id": "ch2_tea_liheng",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_tl_01",
+   "conditions": [
+    {
+     "quest": "side.ch2Tea",
+     "equals": "accepted"
+    }
+   ],
+   "replayable": false,
+   "note": "支线B②：把明澄的话带给厉横；accepted→told"
+  },
+  {
+   "id": "ch2_liheng_progress",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_lp_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "in": [
+      "toldByLiheng",
+      "stationCleared"
+     ]
+    }
+   ],
+   "replayable": true,
+   "note": "主线二进行中重复台词（支线A可邀战时被 ch2_spar_offer 优先匹配）"
+  },
+  {
+   "id": "ch2_liheng_after",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_la_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "completed"
+    }
+   ],
+   "replayable": true,
+   "note": "主线二完成后重复台词"
+  },
+  {
+   "id": "ch2_liheng_idle",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.liheng"
+   },
+   "entry": "ch2_li_01",
+   "conditions": [],
+   "replayable": true,
+   "note": "兜底"
+  },
+  {
+   "id": "ch2_gate_girl_bc_meet",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.linzhaowan"
+   },
+   "entry": "ch2_gb_01",
+   "conditions": [
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "accepted"
+    }
+   ],
+   "replayable": false,
+   "note": "v1.1 并行：第一章支线已接但还没在竹林见到林照晚，而她已转场到山门时，在山门补“竹影同路②”：发 side.bambooCompanions/talkGirl（accepted→girlMet，守卫同 v1）"
+  },
+  {
+   "id": "ch2_gate_girl_wait",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.linzhaowan"
+   },
+   "entry": "ch2_gw_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "accepted"
+    }
+   ],
+   "replayable": true,
+   "note": "M2 期间林照晚重复台词（战前点厉横推进）"
+  },
+  {
+   "id": "ch2_gate_girl_after",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.linzhaowan"
+   },
+   "entry": "ch2_ga_01",
+   "conditions": [
+    {
+     "quest": "main.ch2Herbs",
+     "equals": "completed"
+    }
+   ],
+   "replayable": true,
+   "note": "主线二完成后重复台词"
+  },
+  {
+   "id": "ch2_gate_girl_idle",
+   "trigger": {
+    "scene": "gate",
+    "point": "gate.linzhaowan"
+   },
+   "entry": "ch2_gq_01",
+   "conditions": [],
+   "replayable": true,
+   "note": "兜底"
+  },
+  {
+   "id": "ch2_tea_offer",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "ch2_to_01",
+   "conditions": [
+    {
+     "quest": "side.ch2Tea",
+     "equals": "available"
+    }
+   ],
+   "replayable": false,
+   "note": "支线B①：明澄托话；available→accepted"
+  },
+  {
+   "id": "ch2_tea_return",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "ch2_tr_01",
+   "conditions": [
+    {
+     "quest": "side.ch2Tea",
+     "equals": "told"
+    }
+   ],
+   "replayable": false,
+   "note": "支线B③结算：told→completed，奖励【占位B】由状态机在一致性保存成功后提示，本数据不写奖励"
+  },
+  {
+   "id": "ch2_tea_wait",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "ch2_tw_01",
+   "conditions": [
+    {
+     "quest": "side.ch2Tea",
+     "equals": "accepted"
+    }
+   ],
+   "replayable": true,
+   "note": "支线B 已接未带话时重复台词"
+  },
+  {
+   "id": "ch2_monk_after",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "ch2_ma_01",
+   "conditions": [
+    {
+     "quest": "side.ch2Tea",
+     "equals": "completed"
+    }
+   ],
+   "replayable": true,
+   "note": "支线B 完成后重复台词"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ch2_zc_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "林姑娘天没亮就往山门去了，托我带句话。",
+   "locKey": "dlg.ch2_zc_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zc_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer_companions"
+  },
+  {
+   "id": "ch2_zc_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "什么话？",
+   "locKey": "dlg.ch2_zc_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zc_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer_companions"
+  },
+  {
+   "id": "ch2_zc_03",
+   "speaker": "zhoubo",
+   "expression": "smile",
+   "text": "她说：“我不等人，跟不跟得上看他。”",
+   "locKey": "dlg.ch2_zc_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zc_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer_companions"
+  },
+  {
+   "id": "ch2_zc_04",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "进山的人还说，山门外有生面孔转悠。你顺路瞧瞧。",
+   "locKey": "dlg.ch2_zc_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_zc_04_c1",
+     "text": "她在找什么？",
+     "locKey": "dlg.ch2_zc_04_c1",
+     "next": "ch2_zc_05",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_zc_04_c2",
+     "text": "我这就去山门。",
+     "locKey": "dlg.ch2_zc_04_c2",
+     "next": "ch2_zc_06",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer_companions"
+  },
+  {
+   "id": "ch2_zc_05",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "还是那只药包。她说丢在竹林口，八成是被人拿走了。",
+   "locKey": "dlg.ch2_zc_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zc_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer_companions"
+  },
+  {
+   "id": "ch2_zc_06",
+   "speaker": "shenyan",
+   "expression": "smile",
+   "text": "说好一起走的，总不能让她一个人去。",
+   "locKey": "dlg.ch2_zc_06",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zc_07",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer_companions"
+  },
+  {
+   "id": "ch2_zc_07",
+   "speaker": "narrator",
+   "expression": "default",
+   "text": "天刚亮，林照晚离开竹林，往山门去了。",
+   "locKey": "dlg.ch2_zc_07",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "main.ch2Herbs",
+     "event": "accept"
+    }
+   ],
+   "dialogue": "ch2_zhou_offer_companions"
+  },
+  {
+   "id": "ch2_zo_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "竹林那头太平了，可山门外又不安生。",
+   "locKey": "dlg.ch2_zo_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zo_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer"
+  },
+  {
+   "id": "ch2_zo_02",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "有个背剑姑娘往山门去了，像在找丢了的东西。",
+   "locKey": "dlg.ch2_zo_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zo_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer"
+  },
+  {
+   "id": "ch2_zo_03",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "进山的人说那边有生面孔。你顺路瞧瞧，别让她吃亏。",
+   "locKey": "dlg.ch2_zo_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_zo_03_c1",
+     "text": "她丢了什么？",
+     "locKey": "dlg.ch2_zo_03_c1",
+     "next": "ch2_zo_04",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_zo_03_c2",
+     "text": "我这就去山门。",
+     "locKey": "dlg.ch2_zo_03_c2",
+     "next": "ch2_zo_05",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer"
+  },
+  {
+   "id": "ch2_zo_04",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "一只药包。听说是给山上病人配的药。",
+   "locKey": "dlg.ch2_zo_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zo_05",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer"
+  },
+  {
+   "id": "ch2_zo_05",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "好，我去山门看看。",
+   "locKey": "dlg.ch2_zo_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_zo_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_offer"
+  },
+  {
+   "id": "ch2_zo_06",
+   "speaker": "narrator",
+   "expression": "default",
+   "text": "天刚亮，背剑少女离开竹林，往山门去了。",
+   "locKey": "dlg.ch2_zo_06",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "main.ch2Herbs",
+     "event": "accept"
+    }
+   ],
+   "dialogue": "ch2_zhou_offer"
+  },
+  {
+   "id": "ch2_zp_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "山门那边的事办完了，回来同我说说。",
+   "locKey": "dlg.ch2_zp_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_progress"
+  },
+  {
+   "id": "ch2_ze_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "厉横守山门去了？也好，路总得有人守。",
+   "locKey": "dlg.ch2_ze_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_zhou_epilogue"
+  },
+  {
+   "id": "ch2_gk_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "竹林口拦路的是你，药包也是你拿的吧？",
+   "locKey": "dlg.ch2_gk_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gk_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_known"
+  },
+  {
+   "id": "ch2_gk_02",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "路是我拦的，药包不在我手上。",
+   "locKey": "dlg.ch2_gk_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gk_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_known"
+  },
+  {
+   "id": "ch2_gk_03",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "照晚，我来了。",
+   "locKey": "dlg.ch2_gk_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_gk_03_c1",
+     "text": "先听他把话说完。",
+     "locKey": "dlg.ch2_gk_03_c1",
+     "next": "ch2_gk_04",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_gk_03_c2",
+     "text": "（站到她身侧，按住剑柄）",
+     "locKey": "dlg.ch2_gk_03_c2",
+     "next": "ch2_gk_05",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_known"
+  },
+  {
+   "id": "ch2_gk_04",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "……好，我听。说清楚，药包在谁手里？",
+   "locKey": "dlg.ch2_gk_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gk_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_known"
+  },
+  {
+   "id": "ch2_gk_05",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "站旁边可以，剑先别拔。",
+   "locKey": "dlg.ch2_gk_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gk_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_known"
+  },
+  {
+   "id": "ch2_gk_06",
+   "speaker": "yaohang_dashou",
+   "expression": "default",
+   "text": "厉横！东家让你管住嘴。",
+   "locKey": "dlg.ch2_gk_06",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gk_07",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_known"
+  },
+  {
+   "id": "ch2_gk_07",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "是葛三秤的人……小子，当心他的棍。",
+   "locKey": "dlg.ch2_gk_07",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gk_08",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_known"
+  },
+  {
+   "id": "ch2_gk_08",
+   "speaker": "yaohang_dashou",
+   "expression": "default",
+   "text": "多管闲事的，一起躺下！",
+   "locKey": "dlg.ch2_gk_08",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "startBattle",
+     "battleId": "ch2_thug"
+    }
+   ],
+   "dialogue": "ch2_gate_prebattle_known"
+  },
+  {
+   "id": "ch2_gn_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "竹林口拦路的是你，药包也是你拿的吧？",
+   "locKey": "dlg.ch2_gn_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "nameOverride": "背剑少女",
+   "next": "ch2_gn_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_new"
+  },
+  {
+   "id": "ch2_gn_02",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "路是我拦的，药包不在我手上。",
+   "locKey": "dlg.ch2_gn_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gn_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_new"
+  },
+  {
+   "id": "ch2_gn_03",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "你又是谁？周伯叫你来的？",
+   "locKey": "dlg.ch2_gn_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "nameOverride": "背剑少女",
+   "choices": [
+    {
+     "id": "ch2_gn_03_c1",
+     "text": "是。我叫沈砚，来帮你找药包。",
+     "locKey": "dlg.ch2_gn_03_c1",
+     "next": "ch2_gn_04",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_gn_03_c2",
+     "text": "路过。你们先说。",
+     "locKey": "dlg.ch2_gn_03_c2",
+     "next": "ch2_gn_05",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_new"
+  },
+  {
+   "id": "ch2_gn_04",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "林照晚。帮忙可以，别替我做主。",
+   "locKey": "dlg.ch2_gn_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gn_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_new"
+  },
+  {
+   "id": "ch2_gn_05",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "林照晚。既是路过，就站远些。",
+   "locKey": "dlg.ch2_gn_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gn_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_new"
+  },
+  {
+   "id": "ch2_gn_06",
+   "speaker": "yaohang_dashou",
+   "expression": "default",
+   "text": "厉横！东家让你管住嘴。",
+   "locKey": "dlg.ch2_gn_06",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gn_07",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_new"
+  },
+  {
+   "id": "ch2_gn_07",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "是葛三秤的人……小子，当心他的棍。",
+   "locKey": "dlg.ch2_gn_07",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gn_08",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_prebattle_new"
+  },
+  {
+   "id": "ch2_gn_08",
+   "speaker": "yaohang_dashou",
+   "expression": "default",
+   "text": "多管闲事的，一起躺下！",
+   "locKey": "dlg.ch2_gn_08",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "startBattle",
+     "battleId": "ch2_thug"
+    }
+   ],
+   "dialogue": "ch2_gate_prebattle_new"
+  },
+  {
+   "id": "ch2_tp_01",
+   "speaker": "yaohang_dashou",
+   "expression": "default",
+   "text": "你们等着，东家不会放过你们！",
+   "locKey": "dlg.ch2_tp_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_tp_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_thug_postbattle"
+  },
+  {
+   "id": "ch2_tp_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "厉横，你得把话说完。",
+   "locKey": "dlg.ch2_tp_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {
+    "dlg.ch2.thugPostSeen": true
+   },
+   "effects": [],
+   "dialogue": "ch2_thug_postbattle"
+  },
+  {
+   "id": "ch2_lt_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "东家叫葛三秤，在旧驿亭收山药。",
+   "locKey": "dlg.ch2_lt_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_lt_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_lt_02",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "他出钱让我拦竹林。村里人不进山，药就只能卖给他。",
+   "locKey": "dlg.ch2_lt_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_lt_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_lt_03",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "那天抢药包的，也是他的人？",
+   "locKey": "dlg.ch2_lt_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_lt_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_lt_04",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "是。我收了他的钱，这事赖不掉。",
+   "locKey": "dlg.ch2_lt_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_lt_04_c1",
+     "text": "你为什么肯说了？",
+     "locKey": "dlg.ch2_lt_04_c1",
+     "next": "ch2_lt_05",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_lt_04_c2",
+     "text": "跟我们一起去驿亭。",
+     "locKey": "dlg.ch2_lt_04_c2",
+     "next": "ch2_lt_06",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_lt_05",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "输给你那天，我才想明白，替人拦路不算本事。",
+   "locKey": "dlg.ch2_lt_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_lt_07",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_lt_06",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "驿亭的人都认得我，我去只会坏事。",
+   "locKey": "dlg.ch2_lt_06",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_lt_07",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_lt_07",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "我守在山门，不让他的人下山。驿亭在竹林北头。",
+   "locKey": "dlg.ch2_lt_07",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_lt_08",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_lt_08",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "葛三秤甩秤砣不按轮数来，看他甩开秤砣再防。",
+   "locKey": "dlg.ch2_lt_08",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_lt_09",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_lt_09",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "走吧。这一趟，算我们一起去。",
+   "locKey": "dlg.ch2_lt_09",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "main.ch2Herbs",
+     "event": "hearLiheng"
+    }
+   ],
+   "dialogue": "ch2_gate_liheng_tell"
+  },
+  {
+   "id": "ch2_sp_01",
+   "speaker": "gesancheng",
+   "expression": "default",
+   "text": "山里的药，我按秤收，公道得很。",
+   "locKey": "dlg.ch2_sp_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_sp_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_prebattle"
+  },
+  {
+   "id": "ch2_sp_02",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "你的秤，一斤少三两。",
+   "locKey": "dlg.ch2_sp_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_sp_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_prebattle"
+  },
+  {
+   "id": "ch2_sp_03",
+   "speaker": "gesancheng",
+   "expression": "default",
+   "text": "姑娘这话难听。厉横那蠢货，倒把你们引来了。",
+   "locKey": "dlg.ch2_sp_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_sp_03_c1",
+     "text": "把药包还给她。",
+     "locKey": "dlg.ch2_sp_03_c1",
+     "next": "ch2_sp_04",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_sp_03_c2",
+     "text": "雇人拦路，也叫公道？",
+     "locKey": "dlg.ch2_sp_03_c2",
+     "next": "ch2_sp_05",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_prebattle"
+  },
+  {
+   "id": "ch2_sp_04",
+   "speaker": "gesancheng",
+   "expression": "default",
+   "text": "药包？进了我的柜，就是我的货。",
+   "locKey": "dlg.ch2_sp_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_sp_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_prebattle"
+  },
+  {
+   "id": "ch2_sp_05",
+   "speaker": "gesancheng",
+   "expression": "default",
+   "text": "路是厉横拦的，与我何干？",
+   "locKey": "dlg.ch2_sp_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_sp_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_prebattle"
+  },
+  {
+   "id": "ch2_sp_06",
+   "speaker": "gesancheng",
+   "expression": "angry",
+   "text": "多说无益，让秤砣替我讲理。",
+   "locKey": "dlg.ch2_sp_06",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "startBattle",
+     "battleId": "ch2_gesancheng"
+    }
+   ],
+   "dialogue": "ch2_station_prebattle"
+  },
+  {
+   "id": "ch2_gd_01",
+   "speaker": "gesancheng",
+   "expression": "default",
+   "text": "药包在里屋柜子里……拿走便是。",
+   "locKey": "dlg.ch2_gd_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gesancheng_defeated_idle"
+  },
+  {
+   "id": "ch2_gi_01",
+   "speaker": "gesancheng",
+   "expression": "default",
+   "text": "收药称秤，闲人走开。",
+   "locKey": "dlg.ch2_gi_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gesancheng_idle"
+  },
+  {
+   "id": "ch2_gp_01",
+   "speaker": "gesancheng",
+   "expression": "default",
+   "text": "别打了！药包在里屋柜子里。",
+   "locKey": "dlg.ch2_gp_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gp_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gesancheng_postbattle"
+  },
+  {
+   "id": "ch2_gp_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "照晚，去拿你的东西。",
+   "locKey": "dlg.ch2_gp_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gp_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gesancheng_postbattle"
+  },
+  {
+   "id": "ch2_gp_03",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "听见动静我就上来了。这人交给我。",
+   "locKey": "dlg.ch2_gp_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gp_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gesancheng_postbattle"
+  },
+  {
+   "id": "ch2_gp_04",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "我押他下山，送去县里见官。",
+   "locKey": "dlg.ch2_gp_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gp_05",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gesancheng_postbattle"
+  },
+  {
+   "id": "ch2_gp_05",
+   "speaker": "narrator",
+   "expression": "default",
+   "text": "厉横押着葛三秤，往山下去了。",
+   "locKey": "dlg.ch2_gp_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {
+    "dlg.ch2.gesanchengPostSeen": true
+   },
+   "effects": [],
+   "dialogue": "ch2_gesancheng_postbattle"
+  },
+  {
+   "id": "ch2_sr_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "药还在，封口也没拆。",
+   "locKey": "dlg.ch2_sr_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_sr_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_recover"
+  },
+  {
+   "id": "ch2_sr_02",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "沈砚，这回……多谢你。",
+   "locKey": "dlg.ch2_sr_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_sr_02_c1",
+     "text": "药是给谁的？",
+     "locKey": "dlg.ch2_sr_02_c1",
+     "next": "ch2_sr_03",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_sr_02_c2",
+     "text": "你也出了力。",
+     "locKey": "dlg.ch2_sr_02_c2",
+     "next": "ch2_sr_04",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_recover"
+  },
+  {
+   "id": "ch2_sr_03",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "给山上的师父。她咳了一冬，等不得。",
+   "locKey": "dlg.ch2_sr_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_sr_05",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_recover"
+  },
+  {
+   "id": "ch2_sr_04",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "我知道。所以这声谢，只说一回。",
+   "locKey": "dlg.ch2_sr_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_sr_05",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_recover"
+  },
+  {
+   "id": "ch2_sr_05",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "回山门吧，厉横押人下山，该回来了。",
+   "locKey": "dlg.ch2_sr_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "main.ch2Herbs",
+     "event": "recoverPack"
+    }
+   ],
+   "dialogue": "ch2_station_recover"
+  },
+  {
+   "id": "ch2_sw_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "葛三秤在亭里。他甩开秤砣时，别硬接。",
+   "locKey": "dlg.ch2_sw_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_girl_wait"
+  },
+  {
+   "id": "ch2_sa_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "药包我自己背，你只管看路。",
+   "locKey": "dlg.ch2_sa_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_girl_after"
+  },
+  {
+   "id": "ch2_si_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "驿亭里药味太冲，我在外头等。",
+   "locKey": "dlg.ch2_si_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_station_girl_idle"
+  },
+  {
+   "id": "ch2_fn_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "药包拿回来了？",
+   "locKey": "dlg.ch2_fn_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_fn_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_02",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "路是你拦的，药不是你抢的。这笔账我只记一半。",
+   "locKey": "dlg.ch2_fn_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_fn_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_03",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "一半也够我还的。往后山门我来守。",
+   "locKey": "dlg.ch2_fn_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_fn_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_04",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "小子，回村替我跟周伯说一声？",
+   "locKey": "dlg.ch2_fn_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_fn_04_c1",
+     "text": "我替你作保，路以后归村里。",
+     "locKey": "dlg.ch2_fn_04_c1",
+     "next": "ch2_fn_05",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_fn_04_c2",
+     "text": "你自己去说，他会听的。",
+     "locKey": "dlg.ch2_fn_04_c2",
+     "next": "ch2_fn_07",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_05",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "……好。这份人情，我记着。",
+   "locKey": "dlg.ch2_fn_05",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_fn_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_06",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "明早我上山送药。山路远，一起走？",
+   "locKey": "dlg.ch2_fn_06",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_fn_09",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_07",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "也对，欠的账，得自己还。",
+   "locKey": "dlg.ch2_fn_07",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_fn_08",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_08",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "明早我上山送药。山路远，一起走？",
+   "locKey": "dlg.ch2_fn_08",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_fn_10",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_09",
+   "speaker": "shenyan",
+   "expression": "smile",
+   "text": "好。下回拔剑，我们并肩。",
+   "locKey": "dlg.ch2_fn_09",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {
+    "dlg.ch2.lihengVouched": true
+   },
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "main.ch2Herbs",
+     "event": "finish"
+    }
+   ],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_fn_10",
+   "speaker": "shenyan",
+   "expression": "smile",
+   "text": "好。下回拔剑，我们并肩。",
+   "locKey": "dlg.ch2_fn_10",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "main.ch2Herbs",
+     "event": "finish"
+    }
+   ],
+   "dialogue": "ch2_finale"
+  },
+  {
+   "id": "ch2_ss_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "输得服气。你看招，比我出招还快。",
+   "locKey": "dlg.ch2_ss_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_ss_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_spar_settle"
+  },
+  {
+   "id": "ch2_ss_02",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "这东西我用不上了，你拿着。",
+   "locKey": "dlg.ch2_ss_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_ss_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_spar_settle"
+  },
+  {
+   "id": "ch2_ss_03",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "那我收下。下回再切磋。",
+   "locKey": "dlg.ch2_ss_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.ch2Spar",
+     "event": "settle"
+    }
+   ],
+   "dialogue": "ch2_spar_settle"
+  },
+  {
+   "id": "ch2_so_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "竹林那一架，我想了好几宿。",
+   "locKey": "dlg.ch2_so_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_so_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_spar_offer"
+  },
+  {
+   "id": "ch2_so_02",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "再来一回，这次我不按老路数砍。",
+   "locKey": "dlg.ch2_so_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_so_02_c1",
+     "text": "来。",
+     "locKey": "dlg.ch2_so_02_c1",
+     "next": "ch2_so_03",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_so_02_c2",
+     "text": "改日再说。",
+     "locKey": "dlg.ch2_so_02_c2",
+     "next": "ch2_so_04",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_spar_offer"
+  },
+  {
+   "id": "ch2_so_03",
+   "speaker": "liheng",
+   "expression": "angry",
+   "text": "好！看刀。",
+   "locKey": "dlg.ch2_so_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "startBattle",
+     "battleId": "ch2_liheng_spar"
+    }
+   ],
+   "dialogue": "ch2_spar_offer"
+  },
+  {
+   "id": "ch2_so_04",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "随时来，刀给你留着。",
+   "locKey": "dlg.ch2_so_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_spar_offer"
+  },
+  {
+   "id": "ch2_sb_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "……还是叫你看出来了。",
+   "locKey": "dlg.ch2_sb_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_sb_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_spar_postbattle"
+  },
+  {
+   "id": "ch2_sb_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "你握刀柄的手，比嘴老实。",
+   "locKey": "dlg.ch2_sb_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {
+    "dlg.ch2.sparPostSeen": true
+   },
+   "effects": [],
+   "dialogue": "ch2_spar_postbattle"
+  },
+  {
+   "id": "ch2_tl_01",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "明澄说村口祠堂后有空屋，你愿意就去住。",
+   "locKey": "dlg.ch2_tl_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_tl_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_tea_liheng"
+  },
+  {
+   "id": "ch2_tl_02",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "和尚管得真宽。",
+   "locKey": "dlg.ch2_tl_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_tl_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_tea_liheng"
+  },
+  {
+   "id": "ch2_tl_03",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "屋子不住，山门得有人守。那碗茶，我记着。",
+   "locKey": "dlg.ch2_tl_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.ch2Tea",
+     "event": "talkLiheng"
+    }
+   ],
+   "dialogue": "ch2_tea_liheng"
+  },
+  {
+   "id": "ch2_lp_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "驿亭在竹林北头。看他甩开秤砣再防。",
+   "locKey": "dlg.ch2_lp_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_liheng_progress"
+  },
+  {
+   "id": "ch2_la_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "山门有我，你们放心上山。",
+   "locKey": "dlg.ch2_la_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_liheng_after"
+  },
+  {
+   "id": "ch2_li_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "别在这儿杵着，山风大。",
+   "locKey": "dlg.ch2_li_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_liheng_idle"
+  },
+  {
+   "id": "ch2_gb_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "周伯托你问我平安？替我谢过他。",
+   "locKey": "dlg.ch2_gb_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_gb_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_girl_bc_meet"
+  },
+  {
+   "id": "ch2_gb_02",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "林照晚。往后路上，互相照应。",
+   "locKey": "dlg.ch2_gb_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.bambooCompanions",
+     "event": "talkGirl"
+    }
+   ],
+   "dialogue": "ch2_gate_girl_bc_meet"
+  },
+  {
+   "id": "ch2_gw_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "先问厉横。他要敢撒谎，我自己拔剑。",
+   "locKey": "dlg.ch2_gw_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_girl_wait"
+  },
+  {
+   "id": "ch2_ga_01",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "明早山门见，晚了我可不等。",
+   "locKey": "dlg.ch2_ga_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_girl_after"
+  },
+  {
+   "id": "ch2_gq_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "山门风大，有话快说。",
+   "locKey": "dlg.ch2_gq_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_gate_girl_idle"
+  },
+  {
+   "id": "ch2_to_01",
+   "speaker": "mingcheng",
+   "expression": "default",
+   "text": "听说厉横在山门搭了个草棚。",
+   "locKey": "dlg.ch2_to_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_to_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_tea_offer"
+  },
+  {
+   "id": "ch2_to_02",
+   "speaker": "mingcheng",
+   "expression": "default",
+   "text": "夜里山风冷。祠堂后头有间空屋，你替我捎句话？",
+   "locKey": "dlg.ch2_to_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "ch2_to_02_c1",
+     "text": "他从前拦路收钱，你不记恨？",
+     "locKey": "dlg.ch2_to_02_c1",
+     "next": "ch2_to_03",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    },
+    {
+     "id": "ch2_to_02_c2",
+     "text": "好，我带到。",
+     "locKey": "dlg.ch2_to_02_c2",
+     "next": "ch2_to_04",
+     "conditions": [],
+     "source": "ch2-draft-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_tea_offer"
+  },
+  {
+   "id": "ch2_to_03",
+   "speaker": "mingcheng",
+   "expression": "smile",
+   "text": "记恨又不顶饭吃。肯回头的人，总得有地方落脚。",
+   "locKey": "dlg.ch2_to_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_to_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_tea_offer"
+  },
+  {
+   "id": "ch2_to_04",
+   "speaker": "mingcheng",
+   "expression": "smile",
+   "text": "就说茶是热的，饭钱各付。",
+   "locKey": "dlg.ch2_to_04",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.ch2Tea",
+     "event": "talkMonk"
+    }
+   ],
+   "dialogue": "ch2_tea_offer"
+  },
+  {
+   "id": "ch2_tr_01",
+   "speaker": "mingcheng",
+   "expression": "default",
+   "text": "他怎么说？",
+   "locKey": "dlg.ch2_tr_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_tr_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_tea_return"
+  },
+  {
+   "id": "ch2_tr_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "屋子不住，山门要守。茶他记着。",
+   "locKey": "dlg.ch2_tr_02",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "next": "ch2_tr_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_tea_return"
+  },
+  {
+   "id": "ch2_tr_03",
+   "speaker": "mingcheng",
+   "expression": "smile",
+   "text": "肯记着，就是肯回来了。",
+   "locKey": "dlg.ch2_tr_03",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.ch2Tea",
+     "event": "talkMonk"
+    }
+   ],
+   "dialogue": "ch2_tea_return"
+  },
+  {
+   "id": "ch2_tw_01",
+   "speaker": "mingcheng",
+   "expression": "default",
+   "text": "话带到了吗？山门离这儿不远。",
+   "locKey": "dlg.ch2_tw_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_tea_wait"
+  },
+  {
+   "id": "ch2_ma_01",
+   "speaker": "mingcheng",
+   "expression": "default",
+   "text": "祠堂的茶我天天烧着，谁来都有一碗。",
+   "locKey": "dlg.ch2_ma_01",
+   "source": "ch2-draft-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "ch2_monk_after"
+  }
+ ]
+}

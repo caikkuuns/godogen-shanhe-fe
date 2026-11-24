@@ -1,0 +1,231 @@
+{
+ "schemaVersion": 1,
+ "note": "姓氏 + 名字字典组合；身份决定立绘/身高/语气；生成时按 seed 确定性去重。立绘映射 docs/ref-characters-v3/npc/ 下现有素材；散人游走复用 idle（v3 NPC 无 walk 帧）。",
+ "generation": {
+  "seed": 20261121,
+  "count": 18
+ },
+ "surnames": [
+  "赵",
+  "钱",
+  "孙",
+  "李",
+  "周",
+  "吴",
+  "郑",
+  "王",
+  "冯",
+  "陈",
+  "褚",
+  "卫",
+  "蒋",
+  "沈",
+  "韩",
+  "杨",
+  "朱",
+  "秦",
+  "尤",
+  "许",
+  "何",
+  "吕",
+  "施",
+  "张"
+ ],
+ "givenNames": [
+  "阿福",
+  "小满",
+  "长庚",
+  "青禾",
+  "石生",
+  "阿沅",
+  "怀安",
+  "晚舟",
+  "半山",
+  "素心",
+  "子衿",
+  "无咎",
+  "南星",
+  "望川",
+  "秋声",
+  "砚秋",
+  "小乙",
+  "阿梨",
+  "听雪",
+  "归尘",
+  "守拙",
+  "三娘",
+  "六郎",
+  "小满",
+  "冬青",
+  "半夏",
+  "知白",
+  "守一",
+  "阿骞",
+  "长宁",
+  "云生",
+  "木生",
+  "有福",
+  "小翠",
+  "文远",
+  "清和"
+ ],
+ "identities": [
+  {
+   "id": "villager",
+   "label": "村民",
+   "sprite": "zhoubo",
+   "tint": "#eadfce",
+   "height_m": 1.6,
+   "portrait": "res://docs/ref-characters-v3/npc/zhoubo_portrait_v3.png",
+   "voice": "plain"
+  },
+  {
+   "id": "merchant",
+   "label": "商贩",
+   "sprite": "zhoubo",
+   "tint": "#dcc7a4",
+   "height_m": 1.62,
+   "portrait": "res://docs/ref-characters-v3/npc/zhoubo_portrait_v3.png",
+   "voice": "warm"
+  },
+  {
+   "id": "wanderer",
+   "label": "游侠",
+   "sprite": "liheng",
+   "tint": "#c7d0da",
+   "height_m": 1.81,
+   "portrait": "res://docs/ref-characters-v3/npc/liheng_portrait_v3.png",
+   "voice": "gruff"
+  },
+  {
+   "id": "woodcutter",
+   "label": "樵夫",
+   "sprite": "zhoubo",
+   "tint": "#cdbb9a",
+   "height_m": 1.58,
+   "portrait": "res://docs/ref-characters-v3/npc/zhoubo_portrait_v3.png",
+   "voice": "plain"
+  },
+  {
+   "id": "taoist",
+   "label": "道士",
+   "sprite": "mingcheng",
+   "tint": "#d8dde4",
+   "height_m": 1.72,
+   "portrait": "res://docs/ref-characters-v3/npc/mingcheng_portrait_v3.png",
+   "voice": "gruff"
+  },
+  {
+   "id": "storyteller",
+   "label": "说书人",
+   "sprite": "mingcheng",
+   "tint": "#d9cbb8",
+   "height_m": 1.65,
+   "portrait": "res://docs/ref-characters-v3/npc/mingcheng_portrait_v3.png",
+   "voice": "warm"
+  },
+  {
+   "id": "elder",
+   "label": "神秘老人",
+   "sprite": "liheng",
+   "tint": "#cfc9be",
+   "height_m": 1.78,
+   "portrait": "res://docs/ref-characters-v3/npc/liheng_portrait_v3.png",
+   "voice": "gruff"
+  },
+  {
+   "id": "fisher",
+   "label": "渔人",
+   "sprite": "linzhaowan",
+   "tint": "#c9dedb",
+   "height_m": 1.63,
+   "portrait": "res://docs/ref-characters-v3/linzhaowan_portrait_v2.png",
+   "voice": "plain"
+  }
+ ],
+ "personalities": [
+  {
+   "id": "plain",
+   "label": "寡言",
+   "greetings": [
+    "你来了。",
+    "山路不好走，歇会儿吧。",
+    "我没什么要紧事，你自便。",
+    "又见面了。"
+   ],
+   "idle": [
+    "今年雨水还算匀。",
+    "山里安静，听久了能听见自己的心跳。",
+    "剑背在身后，累不累？"
+   ]
+  },
+  {
+   "id": "warm",
+   "label": "热络",
+   "greetings": [
+    "哟，少侠！",
+    "来来来，坐。",
+    "我就说今天有客。",
+    "又碰上了，缘分。"
+   ],
+   "idle": [
+    "路口那棵老槐树，比我年纪还大。",
+    "你要是往山门去，替我问老道一声好。",
+    "这年头，肯走山路的人少了。"
+   ]
+  },
+  {
+   "id": "gruff",
+   "label": "冷硬",
+   "greetings": [
+    "何事？",
+    "站住。……哦，是你。",
+    "有话快说。",
+    "又是你。"
+   ],
+   "idle": [
+    "别在崖边久站。",
+    "刀剑无眼，人也一样。",
+    "雾一起，路就不是路了。"
+   ]
+  }
+ ],
+ "placement": [
+  {
+   "region": "village",
+   "count": 4
+  },
+  {
+   "region": "farmland",
+   "count": 2
+  },
+  {
+   "region": "bamboo",
+   "count": 2
+  },
+  {
+   "region": "brook",
+   "count": 2
+  },
+  {
+   "region": "mountain_road",
+   "count": 2
+  },
+  {
+   "region": "gate",
+   "count": 2
+  },
+  {
+   "region": "cliff",
+   "count": 2
+  },
+  {
+   "region": "shrine",
+   "count": 2
+  }
+ ],
+ "portraitFallbacks": {
+  "shenyan": "res://docs/ref-characters/shenyan_portrait.png",
+  "linzhaowan": "res://docs/ref-characters/linzhaowan_portrait.png"
+ }
+}

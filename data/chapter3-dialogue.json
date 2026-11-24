@@ -1,0 +1,2124 @@
+{
+  "schemaVersion": 1,
+  "id": "shanhe.dialogue.chapter3",
+  "contentVersion": "chapter3-dialogue-v1.2",
+  "language": "zh-Hans",
+  "status": "v1.2 (玩法策划 2026-11-16): gate.linzhaowan merged list drops ch2_gate_girl_go (deleted in chapter2-dialogue v1.2, be-decisions #29); otherwise same as v1.1. v1.1 (玩法策划 2026-11-16): Q1-Q8 decided by 奶蛙, not implemented; names 闻素/褚铁 confirmed; landscape 1920x1080; loads after dialogue-v1.json and chapter2-dialogue.json v1.1; interactionPoints gate.liheng / gate.linzhaowan are full merged lists (ch2 ids + ch3 ids) replacing ch2's lists; speaker narrator = black-screen transition narration (same contract as ch2 v1.1); dlg.ch2.lihengVouched only drives 2 lines in ch3_sendoff_vouched; battle logs live in battle data, not here; see plan/chapter3.md",
+  "evaluation": {
+    "conditionsList": "AND; empty list = true",
+    "logic": "three-valued (true/false/unknown); unknown => false at top level",
+    "unknownSources": [
+      "quest state 'unknown' (main unreadable)",
+      "side state 'disabled' (corrupt/unsupported block)",
+      "quest state 'unknown' for main.ch2Herbs (main.zhouCommission unreadable)",
+      "side state 'disabled' for side.ch2Spar / side.ch2Tea (corrupt/unsupported block)",
+      "quest state 'unknown' for main.ch3Hermitage (main.ch2Herbs unknown)",
+      "side state 'disabled' for side.ch3Debt / side.ch3Herb (corrupt/unsupported block)"
+    ],
+    "missingFlag": "null",
+    "selection": "interactionPoints[point].dialogues in order, first whose conditions are true; none => nothing plays",
+    "commit": "setFlags+effects accumulated along path, committed only when an end node is fully reached; cancel discards",
+    "setFlagsNamespace": "dlg.",
+    "nodeConditionsFalse": "treat as cancel (no commit)"
+  },
+  "states": {
+    "main.zhouCommission": [
+      "notAccepted",
+      "accepted",
+      "delivered",
+      "unknown"
+    ],
+    "side.bambooCompanions": [
+      "locked",
+      "available",
+      "accepted",
+      "girlMet",
+      "bothMet",
+      "ready",
+      "completed",
+      "legacyClosed",
+      "disabled"
+    ],
+    "main.ch2Herbs": [
+      "locked",
+      "available",
+      "accepted",
+      "toldByLiheng",
+      "stationCleared",
+      "completed",
+      "unknown"
+    ],
+    "side.ch2Spar": [
+      "locked",
+      "available",
+      "completed",
+      "disabled"
+    ],
+    "side.ch2Tea": [
+      "locked",
+      "available",
+      "accepted",
+      "told",
+      "completed",
+      "disabled"
+    ],
+    "main.ch3Hermitage": [
+      "locked",
+      "available",
+      "accepted",
+      "stairCleared",
+      "gateHeld",
+      "completed",
+      "unknown"
+    ],
+    "side.ch3Debt": [
+      "locked",
+      "available",
+      "accepted",
+      "delivered",
+      "completed",
+      "disabled"
+    ],
+    "side.ch3Herb": [
+      "locked",
+      "available",
+      "completed",
+      "disabled"
+    ]
+  },
+  "flagsRead": {
+    "battle.ch3_stair.won": "set by battle system on victory over 药行打手（石阶） (read-only for dialogue)",
+    "battle.ch3_chutie.won": "set by battle system on victory over 褚铁 (read-only for dialogue)",
+    "battle.ch3_herb_thief.won": "set by battle system on victory over 药行打手（药圃） (read-only for dialogue)",
+    "dlg.ch2.lihengVouched": "written in chapter 2 ch2_finale; read here ONLY to pick 厉横 sendoff lines (no branch/reward/battle effect)",
+    "dlg.ch3.sendoffSeen": "dialogue-local seen flag (厉横 sendoff)",
+    "dlg.ch3.stairPostSeen": "dialogue-local seen flag",
+    "dlg.ch3.chutiePostSeen": "dialogue-local seen flag",
+    "dlg.ch3.herbPostSeen": "dialogue-local seen flag"
+  },
+  "effectTypes": {
+    "questEvent": {
+      "quest": "string",
+      "event": "string"
+    },
+    "startBattle": {
+      "battleId": "string"
+    }
+  },
+  "speakers": {
+    "shenyan": {
+      "displayName": "沈砚",
+      "nameStatus": "existing",
+      "appearance": "白衣背剑少年（男主）",
+      "panelSide": "left",
+      "portraits": {
+        "default": {
+          "key": "portrait.shenyan.default",
+          "sourceFile": "docs/ref-characters/shenyan_portrait.png",
+          "resPath": null
+        },
+        "serious": {
+          "key": "portrait.shenyan.serious",
+          "sourceFile": null,
+          "resPath": null
+        },
+        "smile": {
+          "key": "portrait.shenyan.smile",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "linzhaowan": {
+      "displayName": "林照晚",
+      "nameStatus": "tentative",
+      "appearance": "粉衣背剑少女（女主）",
+      "panelSide": "right",
+      "portraits": {
+        "default": {
+          "key": "portrait.linzhaowan.default",
+          "sourceFile": "docs/ref-characters/linzhaowan_portrait.png",
+          "resPath": null
+        },
+        "smile": {
+          "key": "portrait.linzhaowan.smile",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "mingcheng": {
+      "displayName": "明澄",
+      "nameStatus": "tentative",
+      "appearance": "年轻僧人（沈砚好兄弟）",
+      "panelSide": "right",
+      "portraits": {
+        "default": {
+          "key": "portrait.mingcheng.default",
+          "sourceFile": null,
+          "resPath": null
+        },
+        "smile": {
+          "key": "portrait.mingcheng.smile",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "zhoubo": {
+      "displayName": "周伯",
+      "nameStatus": "tentative",
+      "appearance": "褐衣老人（拟对应）",
+      "panelSide": "right",
+      "portraits": {
+        "default": {
+          "key": "portrait.zhoubo.default",
+          "sourceFile": null,
+          "resPath": null
+        },
+        "smile": {
+          "key": "portrait.zhoubo.smile",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "liheng": {
+      "displayName": "厉横",
+      "nameStatus": "tentative",
+      "appearance": "壮汉（拟对应）",
+      "panelSide": "right",
+      "portraits": {
+        "default": {
+          "key": "portrait.liheng.default",
+          "sourceFile": null,
+          "resPath": null
+        },
+        "angry": {
+          "key": "portrait.liheng.angry",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "gesancheng": {
+      "displayName": "葛三秤",
+      "nameStatus": "existing",
+      "appearance": "瘦高药贩头目，灰褐短褂，腰挂铁秤杆与链秤砣（第二章新角色）",
+      "panelSide": "right",
+      "portraits": {
+        "default": {
+          "key": "portrait.gesancheng.default",
+          "sourceFile": null,
+          "resPath": null
+        },
+        "angry": {
+          "key": "portrait.gesancheng.angry",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "narrator": {
+      "displayName": "旁白",
+      "nameStatus": "tentative",
+      "appearance": "无立绘。v1.1：出现此说话人的节点表示黑屏转场旁白（需开发支持黑屏转场；不支持时按只显示名字的普通台词显示）",
+      "panelSide": "left",
+      "portraits": {
+        "default": {
+          "key": "transition.fade_black",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "yaohang_dashou": {
+      "displayName": "药行打手",
+      "nameStatus": "existing",
+      "appearance": "短打汉子，手持短棍（第二章杂兵，可仅用名字面板）",
+      "panelSide": "right",
+      "portraits": {
+        "default": {
+          "key": "portrait.yaohang_dashou.default",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "wensu": {
+      "displayName": "闻素",
+      "nameStatus": "existing",
+      "appearance": "清溪庵老医者，林照晚的师父；灰青布衣、银发挽髻、拄竹杖（第三章新角色）",
+      "panelSide": "right",
+      "portraits": {
+        "default": {
+          "key": "portrait.wensu.default",
+          "sourceFile": null,
+          "resPath": null
+        },
+        "smile": {
+          "key": "portrait.wensu.smile",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    },
+    "chutie": {
+      "displayName": "褚铁",
+      "nameStatus": "existing",
+      "appearance": "葛三秤旧部打手头目，膀大腰圆、缠臂铁护腕、使厚背砍刀（第三章新角色）",
+      "panelSide": "right",
+      "portraits": {
+        "default": {
+          "key": "portrait.chutie.default",
+          "sourceFile": null,
+          "resPath": null
+        },
+        "angry": {
+          "key": "portrait.chutie.angry",
+          "sourceFile": null,
+          "resPath": null
+        }
+      }
+    }
+  },
+  "interactionPoints": {
+    "gate.liheng": {
+      "scene": "gate",
+      "dialogues": [
+        "ch2_gate_prebattle_known",
+        "ch2_gate_prebattle_new",
+        "ch2_gate_liheng_tell",
+        "ch2_finale",
+        "ch2_spar_settle",
+        "ch2_tea_liheng",
+        "ch3_debt_settle",
+        "ch3_debt_offer",
+        "ch3_sendoff_vouched",
+        "ch3_sendoff",
+        "ch2_spar_offer",
+        "ch2_liheng_progress",
+        "ch3_liheng_debt_wait",
+        "ch3_liheng_progress",
+        "ch2_liheng_after",
+        "ch2_liheng_idle"
+      ]
+    },
+    "gate.linzhaowan": {
+      "scene": "gate",
+      "dialogues": [
+        "ch2_gate_girl_bc_meet",
+        "ch2_gate_girl_wait",
+        "ch3_setout",
+        "ch2_gate_girl_after",
+        "ch2_gate_girl_idle"
+      ]
+    },
+    "stair.dashou": {
+      "scene": "stair",
+      "dialogues": [
+        "ch3_stair_prebattle",
+        "ch3_stair_tell",
+        "ch3_stair_idle"
+      ]
+    },
+    "stair.linzhaowan": {
+      "scene": "stair",
+      "dialogues": [
+        "ch3_stair_girl_wait",
+        "ch3_stair_girl_idle"
+      ]
+    },
+    "hermitage.chutie": {
+      "scene": "hermitage",
+      "dialogues": [
+        "ch3_gate_prebattle",
+        "ch3_chutie_defeated_idle",
+        "ch3_chutie_idle"
+      ]
+    },
+    "hermitage.linzhaowan": {
+      "scene": "hermitage",
+      "dialogues": [
+        "ch3_gate_held",
+        "ch3_herb_settle",
+        "ch3_herb_offer",
+        "ch3_girl_wait",
+        "ch3_girl_after",
+        "ch3_girl_idle"
+      ]
+    },
+    "hermitage.wensu": {
+      "scene": "hermitage",
+      "dialogues": [
+        "ch3_wensu_finale",
+        "ch3_debt_wensu",
+        "ch3_wensu_after",
+        "ch3_wensu_idle"
+      ]
+    },
+    "battle_return.ch3_stair_victory": {
+      "scene": "battle_return",
+      "dialogues": [
+        "ch3_stair_postbattle"
+      ]
+    },
+    "battle_return.ch3_chutie_victory": {
+      "scene": "battle_return",
+      "dialogues": [
+        "ch3_chutie_postbattle"
+      ]
+    },
+    "battle_return.ch3_herb_thief_victory": {
+      "scene": "battle_return",
+      "dialogues": [
+        "ch3_herb_postbattle"
+      ]
+    }
+  },
+  "dialogues": [
+    {
+      "id": "ch3_setout",
+      "trigger": {
+        "scene": "gate",
+        "point": "gate.linzhaowan"
+      },
+      "entry": "ch3_so_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "available"
+        }
+      ],
+      "replayable": false,
+      "note": "M1 第三章接取：available→accepted。结尾黑屏旁白（复用第二章 narrator 约定），之后山门的林照晚隐藏、在后山石阶出现"
+    },
+    {
+      "id": "ch3_sendoff_vouched",
+      "trigger": {
+        "scene": "gate",
+        "point": "gate.liheng"
+      },
+      "entry": "ch3_sv_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "in": [
+            "accepted",
+            "stairCleared"
+          ]
+        },
+        {
+          "not": {
+            "flag": "dlg.ch3.sendoffSeen",
+            "equals": true
+          }
+        },
+        {
+          "flag": "dlg.ch2.lihengVouched",
+          "equals": true
+        }
+      ],
+      "replayable": false,
+      "note": "厉横送行（第二章选了替他作保）：只是两句台词差分，不影响分支、奖励、战斗；看过即写 dlg.ch3.sendoffSeen"
+    },
+    {
+      "id": "ch3_sendoff",
+      "trigger": {
+        "scene": "gate",
+        "point": "gate.liheng"
+      },
+      "entry": "ch3_sn_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "in": [
+            "accepted",
+            "stairCleared"
+          ]
+        },
+        {
+          "not": {
+            "flag": "dlg.ch3.sendoffSeen",
+            "equals": true
+          }
+        },
+        {
+          "not": {
+            "flag": "dlg.ch2.lihengVouched",
+            "equals": true
+          }
+        }
+      ],
+      "replayable": false,
+      "note": "厉横送行（未作保 / 标记缺失）：两句台词差分；用 not(equals true) 写法，标记缺失时也落到本段"
+    },
+    {
+      "id": "ch3_stair_prebattle",
+      "trigger": {
+        "scene": "stair",
+        "point": "stair.dashou"
+      },
+      "entry": "ch3_sp_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "accepted"
+        },
+        {
+          "not": {
+            "flag": "battle.ch3_stair.won",
+            "equals": true
+          }
+        }
+      ],
+      "replayable": true,
+      "note": "M2 战前：葛三秤旧部打手拦石阶→startBattle ch3_stair。失败可再次触发；再战不重播"
+    },
+    {
+      "id": "ch3_stair_postbattle",
+      "trigger": {
+        "scene": "battle_return",
+        "point": "battle_return.ch3_stair_victory"
+      },
+      "entry": "ch3_sb_01",
+      "conditions": [
+        {
+          "flag": "battle.ch3_stair.won",
+          "equals": true
+        },
+        {
+          "not": {
+            "flag": "dlg.ch3.stairPostSeen",
+            "equals": true
+          }
+        }
+      ],
+      "replayable": false,
+      "note": "战后一次性：不发 questEvent；推进在 ch3_stair_tell"
+    },
+    {
+      "id": "ch3_stair_tell",
+      "trigger": {
+        "scene": "stair",
+        "point": "stair.dashou"
+      },
+      "entry": "ch3_st_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "accepted"
+        },
+        {
+          "flag": "battle.ch3_stair.won",
+          "equals": true
+        }
+      ],
+      "replayable": false,
+      "note": "M2 收尾：打手交代褚铁占了清溪庵；accepted→stairCleared（守卫：battle.ch3_stair.won）。结尾黑屏旁白交代打手离场（离场由 main.ch3Hermitage ≥ stairCleared 驱动）"
+    },
+    {
+      "id": "ch3_stair_idle",
+      "trigger": {
+        "scene": "stair",
+        "point": "stair.dashou"
+      },
+      "entry": "ch3_si_01",
+      "conditions": [],
+      "replayable": true,
+      "note": "兜底"
+    },
+    {
+      "id": "ch3_stair_girl_wait",
+      "trigger": {
+        "scene": "stair",
+        "point": "stair.linzhaowan"
+      },
+      "entry": "ch3_sw_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "accepted"
+        }
+      ],
+      "replayable": true,
+      "note": "M2 期间林照晚在石阶的重复台词（剧情同行，不参战）"
+    },
+    {
+      "id": "ch3_stair_girl_idle",
+      "trigger": {
+        "scene": "stair",
+        "point": "stair.linzhaowan"
+      },
+      "entry": "ch3_sg_01",
+      "conditions": [],
+      "replayable": true,
+      "note": "兜底"
+    },
+    {
+      "id": "ch3_gate_prebattle",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.chutie"
+      },
+      "entry": "ch3_gp_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "stairCleared"
+        },
+        {
+          "not": {
+            "flag": "battle.ch3_chutie.won",
+            "equals": true
+          }
+        }
+      ],
+      "replayable": true,
+      "note": "M3 战前：褚铁堵庵门；林照晚进庵照看师父，第一次主动请沈砚拔剑→startBattle ch3_chutie"
+    },
+    {
+      "id": "ch3_chutie_postbattle",
+      "trigger": {
+        "scene": "battle_return",
+        "point": "battle_return.ch3_chutie_victory"
+      },
+      "entry": "ch3_cb_01",
+      "conditions": [
+        {
+          "flag": "battle.ch3_chutie.won",
+          "equals": true
+        },
+        {
+          "not": {
+            "flag": "dlg.ch3.chutiePostSeen",
+            "equals": true
+          }
+        }
+      ],
+      "replayable": false,
+      "note": "战后一次性：褚铁弃庵下山 + 黑屏旁白；离场由 battle.ch3_chutie.won 驱动（照厉横 set_dormant），不依赖本段"
+    },
+    {
+      "id": "ch3_chutie_defeated_idle",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.chutie"
+      },
+      "entry": "ch3_cd_01",
+      "conditions": [
+        {
+          "flag": "battle.ch3_chutie.won",
+          "equals": true
+        }
+      ],
+      "replayable": true,
+      "note": "保险：正常流程褚铁战后已隐藏"
+    },
+    {
+      "id": "ch3_chutie_idle",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.chutie"
+      },
+      "entry": "ch3_ci_01",
+      "conditions": [],
+      "replayable": true,
+      "note": "兜底：主线未到时不开战"
+    },
+    {
+      "id": "ch3_gate_held",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.linzhaowan"
+      },
+      "entry": "ch3_gh_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "stairCleared"
+        },
+        {
+          "flag": "battle.ch3_chutie.won",
+          "equals": true
+        }
+      ],
+      "replayable": false,
+      "note": "M3 收尾：stairCleared→gateHeld（守卫：battle.ch3_chutie.won）。林照晚“这回是我请你拔的剑”，接第二章“下回拔剑，我们并肩”"
+    },
+    {
+      "id": "ch3_herb_settle",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.linzhaowan"
+      },
+      "entry": "ch3_hs_01",
+      "conditions": [
+        {
+          "quest": "side.ch3Herb",
+          "equals": "available"
+        },
+        {
+          "flag": "battle.ch3_herb_thief.won",
+          "equals": true
+        }
+      ],
+      "replayable": false,
+      "note": "支线B 结算：available→completed，奖励【占位D】由状态机在存档成功后提示，本数据不写奖励"
+    },
+    {
+      "id": "ch3_herb_offer",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.linzhaowan"
+      },
+      "entry": "ch3_ho_01",
+      "conditions": [
+        {
+          "quest": "side.ch3Herb",
+          "equals": "available"
+        },
+        {
+          "not": {
+            "flag": "battle.ch3_herb_thief.won",
+            "equals": true
+          }
+        }
+      ],
+      "replayable": true,
+      "note": "支线B 邀战：选“我去看看”→startBattle ch3_herb_thief；选“等会儿”无 effect。输了回快照、无惩罚"
+    },
+    {
+      "id": "ch3_herb_postbattle",
+      "trigger": {
+        "scene": "battle_return",
+        "point": "battle_return.ch3_herb_thief_victory"
+      },
+      "entry": "ch3_hb_01",
+      "conditions": [
+        {
+          "flag": "battle.ch3_herb_thief.won",
+          "equals": true
+        },
+        {
+          "not": {
+            "flag": "dlg.ch3.herbPostSeen",
+            "equals": true
+          }
+        }
+      ],
+      "replayable": false,
+      "note": "支线B 胜利返回一次性台词 + 黑屏旁白；不发 questEvent"
+    },
+    {
+      "id": "ch3_girl_wait",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.linzhaowan"
+      },
+      "entry": "ch3_gw_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "stairCleared"
+        }
+      ],
+      "replayable": true,
+      "note": "M3 未打赢褚铁时（林照晚在庵内照看，交互点在庵门内侧）"
+    },
+    {
+      "id": "ch3_girl_after",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.linzhaowan"
+      },
+      "entry": "ch3_ga_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "in": [
+            "gateHeld",
+            "completed"
+          ]
+        }
+      ],
+      "replayable": true,
+      "note": "守门之后的重复台词"
+    },
+    {
+      "id": "ch3_girl_idle",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.linzhaowan"
+      },
+      "entry": "ch3_gi_01",
+      "conditions": [],
+      "replayable": true,
+      "note": "兜底"
+    },
+    {
+      "id": "ch3_wensu_finale",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.wensu"
+      },
+      "entry": "ch3_wf_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "gateHeld"
+        }
+      ],
+      "replayable": false,
+      "note": "M4 章节收束：gateHeld→completed。两个选项汇合；结尾黑屏旁白作章节落幕"
+    },
+    {
+      "id": "ch3_debt_wensu",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.wensu"
+      },
+      "entry": "ch3_dw_01",
+      "conditions": [
+        {
+          "quest": "side.ch3Debt",
+          "equals": "accepted"
+        }
+      ],
+      "replayable": false,
+      "note": "支线A②：把厉横的铜钱送到；accepted→delivered（铜钱只是剧情物，不进背包、不扣钱包）"
+    },
+    {
+      "id": "ch3_wensu_after",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.wensu"
+      },
+      "entry": "ch3_wa_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "equals": "completed"
+        }
+      ],
+      "replayable": true,
+      "note": "主线三完成后重复台词"
+    },
+    {
+      "id": "ch3_wensu_idle",
+      "trigger": {
+        "scene": "hermitage",
+        "point": "hermitage.wensu"
+      },
+      "entry": "ch3_wi_01",
+      "conditions": [],
+      "replayable": true,
+      "note": "兜底"
+    },
+    {
+      "id": "ch3_debt_settle",
+      "trigger": {
+        "scene": "gate",
+        "point": "gate.liheng"
+      },
+      "entry": "ch3_ds_01",
+      "conditions": [
+        {
+          "quest": "side.ch3Debt",
+          "equals": "delivered"
+        }
+      ],
+      "replayable": false,
+      "note": "支线A③结算：delivered→completed，奖励【占位C】由状态机在存档成功后提示，本数据不写奖励"
+    },
+    {
+      "id": "ch3_debt_offer",
+      "trigger": {
+        "scene": "gate",
+        "point": "gate.liheng"
+      },
+      "entry": "ch3_do_01",
+      "conditions": [
+        {
+          "quest": "side.ch3Debt",
+          "equals": "available"
+        }
+      ],
+      "replayable": false,
+      "note": "支线A①：厉横托送铜钱；available→accepted。呼应第二章林照晚“这笔账我只记一半”"
+    },
+    {
+      "id": "ch3_liheng_debt_wait",
+      "trigger": {
+        "scene": "gate",
+        "point": "gate.liheng"
+      },
+      "entry": "ch3_dl_01",
+      "conditions": [
+        {
+          "quest": "side.ch3Debt",
+          "equals": "accepted"
+        }
+      ],
+      "replayable": true,
+      "note": "支线A 已接未送时重复台词"
+    },
+    {
+      "id": "ch3_liheng_progress",
+      "trigger": {
+        "scene": "gate",
+        "point": "gate.liheng"
+      },
+      "entry": "ch3_lp_01",
+      "conditions": [
+        {
+          "quest": "main.ch3Hermitage",
+          "in": [
+            "accepted",
+            "stairCleared"
+          ]
+        }
+      ],
+      "replayable": true,
+      "note": "主线三进行中厉横重复台词（不读作保标记）"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ch3_so_01",
+      "speaker": "linzhaowan",
+      "expression": "smile",
+      "text": "来了？我还当你起不来。",
+      "locKey": "dlg.ch3_so_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_so_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_setout"
+    },
+    {
+      "id": "ch3_so_02",
+      "speaker": "shenyan",
+      "expression": "default",
+      "text": "说好的，一起走。",
+      "locKey": "dlg.ch3_so_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_so_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_setout"
+    },
+    {
+      "id": "ch3_so_03",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "药包我背，路你看。",
+      "locKey": "dlg.ch3_so_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "choices": [
+        {
+          "id": "ch3_so_03_c1",
+          "text": "你师父住在哪？",
+          "locKey": "dlg.ch3_so_03_c1",
+          "next": "ch3_so_04",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        },
+        {
+          "id": "ch3_so_03_c2",
+          "text": "走吧。",
+          "locKey": "dlg.ch3_so_03_c2",
+          "next": "ch3_so_05",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        }
+      ],
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_setout"
+    },
+    {
+      "id": "ch3_so_04",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "清溪庵，后山半腰，竹林北头上去。",
+      "locKey": "dlg.ch3_so_04",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_so_05",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_setout"
+    },
+    {
+      "id": "ch3_so_05",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "走吧，师父等不得。",
+      "locKey": "dlg.ch3_so_05",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_so_06",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_setout"
+    },
+    {
+      "id": "ch3_so_06",
+      "speaker": "narrator",
+      "expression": "default",
+      "text": "两人穿过竹林，沿石阶往后山去。",
+      "locKey": "dlg.ch3_so_06",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "questEvent",
+          "quest": "main.ch3Hermitage",
+          "event": "accept"
+        }
+      ],
+      "dialogue": "ch3_setout"
+    },
+    {
+      "id": "ch3_sv_01",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "你替我作过保，这份情我记着。",
+      "locKey": "dlg.ch3_sv_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_sv_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_sendoff_vouched"
+    },
+    {
+      "id": "ch3_sv_02",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "上山去吧，山门我替你们守。",
+      "locKey": "dlg.ch3_sv_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {
+        "dlg.ch3.sendoffSeen": true
+      },
+      "effects": [],
+      "dialogue": "ch3_sendoff_vouched"
+    },
+    {
+      "id": "ch3_sn_01",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "周伯那头，我自己去说过了。",
+      "locKey": "dlg.ch3_sn_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_sn_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_sendoff"
+    },
+    {
+      "id": "ch3_sn_02",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "上山去吧，山门有我。",
+      "locKey": "dlg.ch3_sn_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {
+        "dlg.ch3.sendoffSeen": true
+      },
+      "effects": [],
+      "dialogue": "ch3_sendoff"
+    },
+    {
+      "id": "ch3_sp_01",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "站住！这石阶如今归我们管。",
+      "locKey": "dlg.ch3_sp_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_sp_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_prebattle"
+    },
+    {
+      "id": "ch3_sp_02",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "葛三秤的人？你东家都进了县衙。",
+      "locKey": "dlg.ch3_sp_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_sp_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_prebattle"
+    },
+    {
+      "id": "ch3_sp_03",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "东家没了，饭总得吃。留下钱！",
+      "locKey": "dlg.ch3_sp_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "choices": [
+        {
+          "id": "ch3_sp_03_c1",
+          "text": "（按住剑柄）",
+          "locKey": "dlg.ch3_sp_03_c1",
+          "next": "ch3_sp_04",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        },
+        {
+          "id": "ch3_sp_03_c2",
+          "text": "下山找份正经活计吧。",
+          "locKey": "dlg.ch3_sp_03_c2",
+          "next": "ch3_sp_05",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        }
+      ],
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_prebattle"
+    },
+    {
+      "id": "ch3_sp_04",
+      "speaker": "shenyan",
+      "expression": "default",
+      "text": "照晚，退后半步。",
+      "locKey": "dlg.ch3_sp_04",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_sp_06",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_prebattle"
+    },
+    {
+      "id": "ch3_sp_05",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "少废话！",
+      "locKey": "dlg.ch3_sp_05",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_sp_06",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_prebattle"
+    },
+    {
+      "id": "ch3_sp_06",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "……就退半步。",
+      "locKey": "dlg.ch3_sp_06",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_sp_07",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_prebattle"
+    },
+    {
+      "id": "ch3_sp_07",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "这回我可要攒足了劲！",
+      "locKey": "dlg.ch3_sp_07",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "startBattle",
+          "battleId": "ch3_stair"
+        }
+      ],
+      "dialogue": "ch3_stair_prebattle"
+    },
+    {
+      "id": "ch3_sb_01",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "别打了！我说，我全说！",
+      "locKey": "dlg.ch3_sb_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_sb_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_postbattle"
+    },
+    {
+      "id": "ch3_sb_02",
+      "speaker": "shenyan",
+      "expression": "default",
+      "text": "说完再走。",
+      "locKey": "dlg.ch3_sb_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {
+        "dlg.ch3.stairPostSeen": true
+      },
+      "effects": [],
+      "dialogue": "ch3_stair_postbattle"
+    },
+    {
+      "id": "ch3_st_01",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "褚铁领着几个兄弟，占了半山的庵。",
+      "locKey": "dlg.ch3_st_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_st_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_tell"
+    },
+    {
+      "id": "ch3_st_02",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "清溪庵？师父还在里头！",
+      "locKey": "dlg.ch3_st_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_st_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_tell"
+    },
+    {
+      "id": "ch3_st_03",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "他说庵里药多……我只是望风的。",
+      "locKey": "dlg.ch3_st_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "choices": [
+        {
+          "id": "ch3_st_03_c1",
+          "text": "褚铁出刀什么路数？",
+          "locKey": "dlg.ch3_st_03_c1",
+          "next": "ch3_st_04",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        },
+        {
+          "id": "ch3_st_03_c2",
+          "text": "滚下山去。",
+          "locKey": "dlg.ch3_st_03_c2",
+          "next": "ch3_st_05",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        }
+      ],
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_tell"
+    },
+    {
+      "id": "ch3_st_04",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "他有时蓄一回力，有时蓄两回。",
+      "locKey": "dlg.ch3_st_04",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_st_05",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_tell"
+    },
+    {
+      "id": "ch3_st_05",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "我这就走，再不上山了。",
+      "locKey": "dlg.ch3_st_05",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_st_06",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_tell"
+    },
+    {
+      "id": "ch3_st_06",
+      "speaker": "narrator",
+      "expression": "default",
+      "text": "打手抱着胳膊，一溜烟下山去了。",
+      "locKey": "dlg.ch3_st_06",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "questEvent",
+          "quest": "main.ch3Hermitage",
+          "event": "clearStair"
+        }
+      ],
+      "dialogue": "ch3_stair_tell"
+    },
+    {
+      "id": "ch3_si_01",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "看什么看，走你的路。",
+      "locKey": "dlg.ch3_si_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_idle"
+    },
+    {
+      "id": "ch3_sw_01",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "石阶湿滑，看脚下。",
+      "locKey": "dlg.ch3_sw_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_girl_wait"
+    },
+    {
+      "id": "ch3_sg_01",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "山上风凉。",
+      "locKey": "dlg.ch3_sg_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_stair_girl_idle"
+    },
+    {
+      "id": "ch3_gp_01",
+      "speaker": "chutie",
+      "expression": "default",
+      "text": "庵里的药，我全要了。",
+      "locKey": "dlg.ch3_gp_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_gp_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_prebattle"
+    },
+    {
+      "id": "ch3_gp_02",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "里头是我师父，她病着。",
+      "locKey": "dlg.ch3_gp_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_gp_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_prebattle"
+    },
+    {
+      "id": "ch3_gp_03",
+      "speaker": "chutie",
+      "expression": "default",
+      "text": "病着正好，省得有人拦我。",
+      "locKey": "dlg.ch3_gp_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_gp_04",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_prebattle"
+    },
+    {
+      "id": "ch3_gp_04",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "沈砚，我得进去看师父。",
+      "locKey": "dlg.ch3_gp_04",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_gp_05",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_prebattle"
+    },
+    {
+      "id": "ch3_gp_05",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "门……交给你了。",
+      "locKey": "dlg.ch3_gp_05",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "choices": [
+        {
+          "id": "ch3_gp_05_c1",
+          "text": "去吧，这里有我。",
+          "locKey": "dlg.ch3_gp_05_c1",
+          "next": "ch3_gp_06",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        },
+        {
+          "id": "ch3_gp_05_c2",
+          "text": "放心，剑我来拔。",
+          "locKey": "dlg.ch3_gp_05_c2",
+          "next": "ch3_gp_06",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        }
+      ],
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_prebattle"
+    },
+    {
+      "id": "ch3_gp_06",
+      "speaker": "chutie",
+      "expression": "angry",
+      "text": "小子，先接我两回蓄力的刀！",
+      "locKey": "dlg.ch3_gp_06",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "startBattle",
+          "battleId": "ch3_chutie"
+        }
+      ],
+      "dialogue": "ch3_gate_prebattle"
+    },
+    {
+      "id": "ch3_cb_01",
+      "speaker": "chutie",
+      "expression": "default",
+      "text": "罢了罢了，这庵我不要了！",
+      "locKey": "dlg.ch3_cb_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_cb_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_chutie_postbattle"
+    },
+    {
+      "id": "ch3_cb_02",
+      "speaker": "narrator",
+      "expression": "default",
+      "text": "褚铁拖着刀，跌跌撞撞下山去了。",
+      "locKey": "dlg.ch3_cb_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {
+        "dlg.ch3.chutiePostSeen": true
+      },
+      "effects": [],
+      "dialogue": "ch3_chutie_postbattle"
+    },
+    {
+      "id": "ch3_cd_01",
+      "speaker": "chutie",
+      "expression": "default",
+      "text": "别打了，我这就走。",
+      "locKey": "dlg.ch3_cd_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_chutie_defeated_idle"
+    },
+    {
+      "id": "ch3_ci_01",
+      "speaker": "chutie",
+      "expression": "default",
+      "text": "庵门前，闲人止步。",
+      "locKey": "dlg.ch3_ci_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_chutie_idle"
+    },
+    {
+      "id": "ch3_gh_01",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "门守住了？",
+      "locKey": "dlg.ch3_gh_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_gh_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_held"
+    },
+    {
+      "id": "ch3_gh_02",
+      "speaker": "shenyan",
+      "expression": "default",
+      "text": "守住了。",
+      "locKey": "dlg.ch3_gh_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_gh_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_held"
+    },
+    {
+      "id": "ch3_gh_03",
+      "speaker": "linzhaowan",
+      "expression": "smile",
+      "text": "这回，是我请你拔的剑。",
+      "locKey": "dlg.ch3_gh_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "choices": [
+        {
+          "id": "ch3_gh_03_c1",
+          "text": "你师父怎样了？",
+          "locKey": "dlg.ch3_gh_03_c1",
+          "next": "ch3_gh_04",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        },
+        {
+          "id": "ch3_gh_03_c2",
+          "text": "下回还请我？",
+          "locKey": "dlg.ch3_gh_03_c2",
+          "next": "ch3_gh_05",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        }
+      ],
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_held"
+    },
+    {
+      "id": "ch3_gh_04",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "喝了药，咳得轻些了。",
+      "locKey": "dlg.ch3_gh_04",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_gh_06",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_held"
+    },
+    {
+      "id": "ch3_gh_05",
+      "speaker": "linzhaowan",
+      "expression": "smile",
+      "text": "看你表现。",
+      "locKey": "dlg.ch3_gh_05",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_gh_06",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_gate_held"
+    },
+    {
+      "id": "ch3_gh_06",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "师父醒了，想见见你。",
+      "locKey": "dlg.ch3_gh_06",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "questEvent",
+          "quest": "main.ch3Hermitage",
+          "event": "holdGate"
+        }
+      ],
+      "dialogue": "ch3_gate_held"
+    },
+    {
+      "id": "ch3_hs_01",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "雪见草保住了，师父的药就差它。",
+      "locKey": "dlg.ch3_hs_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_hs_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_herb_settle"
+    },
+    {
+      "id": "ch3_hs_02",
+      "speaker": "linzhaowan",
+      "expression": "smile",
+      "text": "多谢。……这声谢，算第二回。",
+      "locKey": "dlg.ch3_hs_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "questEvent",
+          "quest": "side.ch3Herb",
+          "event": "settle"
+        }
+      ],
+      "dialogue": "ch3_herb_settle"
+    },
+    {
+      "id": "ch3_ho_01",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "药圃篱笆被人翻了，还在挖。",
+      "locKey": "dlg.ch3_ho_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "choices": [
+        {
+          "id": "ch3_ho_01_c1",
+          "text": "我去看看。",
+          "locKey": "dlg.ch3_ho_01_c1",
+          "next": "ch3_ho_02",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        },
+        {
+          "id": "ch3_ho_01_c2",
+          "text": "等会儿。",
+          "locKey": "dlg.ch3_ho_01_c2",
+          "next": "ch3_ho_04",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        }
+      ],
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_herb_offer"
+    },
+    {
+      "id": "ch3_ho_02",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "这草值钱，谁挖不是挖！",
+      "locKey": "dlg.ch3_ho_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_ho_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_herb_offer"
+    },
+    {
+      "id": "ch3_ho_03",
+      "speaker": "shenyan",
+      "expression": "default",
+      "text": "放下药锄。",
+      "locKey": "dlg.ch3_ho_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "startBattle",
+          "battleId": "ch3_herb_thief"
+        }
+      ],
+      "dialogue": "ch3_herb_offer"
+    },
+    {
+      "id": "ch3_ho_04",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "快些，那片雪见草挖不得。",
+      "locKey": "dlg.ch3_ho_04",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_herb_offer"
+    },
+    {
+      "id": "ch3_hb_01",
+      "speaker": "yaohang_dashou",
+      "expression": "default",
+      "text": "别打了，草还你！",
+      "locKey": "dlg.ch3_hb_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_hb_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_herb_postbattle"
+    },
+    {
+      "id": "ch3_hb_02",
+      "speaker": "narrator",
+      "expression": "default",
+      "text": "打手丢下药锄，翻过篱笆跑了。",
+      "locKey": "dlg.ch3_hb_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {
+        "dlg.ch3.herbPostSeen": true
+      },
+      "effects": [],
+      "dialogue": "ch3_herb_postbattle"
+    },
+    {
+      "id": "ch3_gw_01",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "师父在里头，门外交给你。",
+      "locKey": "dlg.ch3_gw_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_girl_wait"
+    },
+    {
+      "id": "ch3_ga_01",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "师父睡下了，说话小声些。",
+      "locKey": "dlg.ch3_ga_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_girl_after"
+    },
+    {
+      "id": "ch3_gi_01",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "庵里药味重，别嫌。",
+      "locKey": "dlg.ch3_gi_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_girl_idle"
+    },
+    {
+      "id": "ch3_wf_01",
+      "speaker": "wensu",
+      "expression": "default",
+      "text": "你就是沈砚？照晚提过你。",
+      "locKey": "dlg.ch3_wf_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_wf_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_wf_02",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "师父！我没提过几回。",
+      "locKey": "dlg.ch3_wf_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_wf_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_wf_03",
+      "speaker": "wensu",
+      "expression": "smile",
+      "text": "提一回也是提。多谢你守门。",
+      "locKey": "dlg.ch3_wf_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_wf_04",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_wf_04",
+      "speaker": "wensu",
+      "expression": "default",
+      "text": "这丫头嘴硬，心却软。",
+      "locKey": "dlg.ch3_wf_04",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_wf_05",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_wf_05",
+      "speaker": "wensu",
+      "expression": "default",
+      "text": "等我好些，替我陪她下山走走。",
+      "locKey": "dlg.ch3_wf_05",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "choices": [
+        {
+          "id": "ch3_wf_05_c1",
+          "text": "我在山门等她。",
+          "locKey": "dlg.ch3_wf_05_c1",
+          "next": "ch3_wf_07",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        },
+        {
+          "id": "ch3_wf_05_c2",
+          "text": "她不许我替她拔剑。",
+          "locKey": "dlg.ch3_wf_05_c2",
+          "next": "ch3_wf_06",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        }
+      ],
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_wf_06",
+      "speaker": "linzhaowan",
+      "expression": "smile",
+      "text": "……今天准了。",
+      "locKey": "dlg.ch3_wf_06",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_wf_07",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_wf_07",
+      "speaker": "linzhaowan",
+      "expression": "default",
+      "text": "等师父能下床，我就下山。",
+      "locKey": "dlg.ch3_wf_07",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_wf_08",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_wf_08",
+      "speaker": "shenyan",
+      "expression": "smile",
+      "text": "好，山门见。",
+      "locKey": "dlg.ch3_wf_08",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_wf_09",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_wf_09",
+      "speaker": "narrator",
+      "expression": "default",
+      "text": "山风过庵，药香未散。",
+      "locKey": "dlg.ch3_wf_09",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "questEvent",
+          "quest": "main.ch3Hermitage",
+          "event": "finish"
+        }
+      ],
+      "dialogue": "ch3_wensu_finale"
+    },
+    {
+      "id": "ch3_dw_01",
+      "speaker": "shenyan",
+      "expression": "default",
+      "text": "山门的厉横托我送来一串钱。",
+      "locKey": "dlg.ch3_dw_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_dw_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_debt_wensu"
+    },
+    {
+      "id": "ch3_dw_02",
+      "speaker": "wensu",
+      "expression": "default",
+      "text": "拦过路的那汉子？钱我收下。",
+      "locKey": "dlg.ch3_dw_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_dw_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_debt_wensu"
+    },
+    {
+      "id": "ch3_dw_03",
+      "speaker": "wensu",
+      "expression": "smile",
+      "text": "叫他得空上山，喝碗茶。",
+      "locKey": "dlg.ch3_dw_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "questEvent",
+          "quest": "side.ch3Debt",
+          "event": "talkWensu"
+        }
+      ],
+      "dialogue": "ch3_debt_wensu"
+    },
+    {
+      "id": "ch3_wa_01",
+      "speaker": "wensu",
+      "expression": "smile",
+      "text": "山下谁咳喘，叫他上山来。",
+      "locKey": "dlg.ch3_wa_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_after"
+    },
+    {
+      "id": "ch3_wi_01",
+      "speaker": "wensu",
+      "expression": "default",
+      "text": "咳……庵里乱，见笑了。",
+      "locKey": "dlg.ch3_wi_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_wensu_idle"
+    },
+    {
+      "id": "ch3_ds_01",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "她真这么说？",
+      "locKey": "dlg.ch3_ds_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_ds_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_debt_settle"
+    },
+    {
+      "id": "ch3_ds_02",
+      "speaker": "shenyan",
+      "expression": "default",
+      "text": "原话，叫你上山喝茶。",
+      "locKey": "dlg.ch3_ds_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_ds_03",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_debt_settle"
+    },
+    {
+      "id": "ch3_ds_03",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "那另一半账，也算还上了。",
+      "locKey": "dlg.ch3_ds_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "questEvent",
+          "quest": "side.ch3Debt",
+          "event": "talkLiheng"
+        }
+      ],
+      "dialogue": "ch3_debt_settle"
+    },
+    {
+      "id": "ch3_do_01",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "庵里的事，我听说了。",
+      "locKey": "dlg.ch3_do_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_do_02",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_debt_offer"
+    },
+    {
+      "id": "ch3_do_02",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "当年我拦路，庵里断了药钱。",
+      "locKey": "dlg.ch3_do_02",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "choices": [
+        {
+          "id": "ch3_do_02_c1",
+          "text": "你怎么不自己去？",
+          "locKey": "dlg.ch3_do_02_c1",
+          "next": "ch3_do_03",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        },
+        {
+          "id": "ch3_do_02_c2",
+          "text": "要我带什么？",
+          "locKey": "dlg.ch3_do_02_c2",
+          "next": "ch3_do_04",
+          "conditions": [],
+          "source": "ch3-draft-pending-review"
+        }
+      ],
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_debt_offer"
+    },
+    {
+      "id": "ch3_do_03",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "我得守门。……也没脸去。",
+      "locKey": "dlg.ch3_do_03",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_do_04",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_debt_offer"
+    },
+    {
+      "id": "ch3_do_04",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "这串铜钱，替我送给庵主。",
+      "locKey": "dlg.ch3_do_04",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "next": "ch3_do_05",
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_debt_offer"
+    },
+    {
+      "id": "ch3_do_05",
+      "speaker": "shenyan",
+      "expression": "default",
+      "text": "好，我替你送到。",
+      "locKey": "dlg.ch3_do_05",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [
+        {
+          "type": "questEvent",
+          "quest": "side.ch3Debt",
+          "event": "talkLiheng"
+        }
+      ],
+      "dialogue": "ch3_debt_offer"
+    },
+    {
+      "id": "ch3_dl_01",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "钱送到了吗？别替我说好话。",
+      "locKey": "dlg.ch3_dl_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_liheng_debt_wait"
+    },
+    {
+      "id": "ch3_lp_01",
+      "speaker": "liheng",
+      "expression": "default",
+      "text": "石阶在竹林北头，上去就是。",
+      "locKey": "dlg.ch3_lp_01",
+      "source": "ch3-draft-pending-review",
+      "conditions": [],
+      "end": true,
+      "setFlags": {},
+      "effects": [],
+      "dialogue": "ch3_liheng_progress"
+    }
+  ]
+}

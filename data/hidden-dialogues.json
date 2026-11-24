@@ -1,0 +1,102 @@
+{
+ "schemaVersion": 1,
+ "note": "没有任务列表/追踪 UI/强制引导。对话开始时按条件命中隐藏分支，只在结束时写 dlg.hidden.* flags；错过可再来，命中后 NPC 仍可正常交谈。",
+ "records": [
+  {"id": "hidden.woodcutter.dusk", "identity": "woodcutter", "region": "bamboo", "priority": 10,
+   "conditions": {"talk_count_min": 2, "time_of_day": ["dusk", "night"]},
+   "lines": [
+    "你听——风穿过那片歪竹的时候，声音和别处不一样。",
+    "我砍了三十年竹，只在那棵歪竹底下见过一只旧竹简。你要是夜里来，兴许能找着。"
+   ],
+   "setFlags": {"dlg.hidden.woodcutter.dusk": true}},
+
+  {"id": "hidden.taoist.jade", "identity": "taoist", "region": "shrine", "priority": 20,
+   "conditions": {"talk_count_min": 1, "has_item": "jade_slip", "time_of_day": ["night"]},
+   "lines": [
+    "你身上那块青玉片……从水里捞的？",
+    "神像的头不是被人砍的，是它自己低下去，藏了东西。夜里来，搬开供桌第三块砖。",
+    "别贪多。拿一卷就走。"
+   ],
+   "setFlags": {"dlg.hidden.taoist.jade": true}},
+
+  {"id": "hidden.storyteller.legend", "identity": "storyteller", "region": "village", "priority": 15,
+   "conditions": {"talk_count_min": 4, "reputation_min": 3},
+   "lines": [
+    "少侠如今在村里也算有名号了，我便说段没人信的。",
+    "二十年前，山门守关人把一卷刀谱塞进门楼夹层。后来守关人死了，刀谱还在。",
+    "你若真走到山门，抬头看看横梁。别让守门老头瞧见。"
+   ],
+   "setFlags": {"dlg.hidden.storyteller.legend": true}},
+
+  {"id": "hidden.elder.cloud", "identity": "elder", "region": "cliff", "priority": 25,
+   "conditions": {"weather": ["mist"], "talk_total_min": 6},
+   "lines": [
+    "雾里那一道白线，你看见了？",
+    "四十年前我也看见过。那不是鸟，是有人在崖外练剑。",
+    "你若有耐心，明日雾起时再来。别带旁人。"
+   ],
+   "setFlags": {"dlg.hidden.elder.cloud": true}},
+
+  {"id": "hidden.merchant.herbs", "identity": "merchant", "region": "gate", "priority": 12,
+   "conditions": {"talk_count_min": 2, "has_item": "herb", "item_min": 3},
+   "lines": [
+    "你这草药成色不错，三株……正好够我配一副旧方。",
+    "我拿消息换，不拿钱。山门后那截断墙，夜里会自己合上。信不信由你。"
+   ],
+   "setFlags": {"dlg.hidden.merchant.herbs": true}},
+
+  {"id": "hidden.wanderer.road", "identity": "wanderer", "region": "mountain_road", "priority": 14,
+   "conditions": {"talk_count_min": 3, "time_of_day": ["day", "dawn"]},
+   "lines": [
+    "你走路的法子，像练过。",
+    "这条山道我走了七年，只有一处石阶会响。踩上去别急着过，停一息。",
+    "石头缝里刻着东西。看得懂是缘，看不懂也别撬。"
+   ],
+   "setFlags": {"dlg.hidden.wanderer.road": true}},
+
+  {"id": "hidden.fisher.rain", "identity": "fisher", "region": "brook", "priority": 11,
+   "conditions": {"talk_count_min": 1, "weather": ["rain"]},
+   "lines": [
+    "下雨天鱼不咬钩，人倒容易来。",
+    "上游冲下来的东西，我捞过剑穗、玉片，还有一只空匣子。",
+    "空匣子在深潭石缝里。你要下水，先试试自己闭气够不够长。"
+   ],
+   "setFlags": {"dlg.hidden.fisher.rain": true}},
+
+  {"id": "hidden.villager.dawn", "identity": "villager", "region": "farmland", "priority": 8,
+   "conditions": {"talk_count_min": 1, "time_of_day": ["dawn"]},
+   "lines": [
+    "这么早？田里的雾还没散呢。",
+    "雾散之前，东南角那块田别去。不是闹鬼，是有人在那儿练刀。",
+    "我见过一回，刀光把露水都削断了。"
+   ],
+   "setFlags": {"dlg.hidden.villager.dawn": true}},
+
+  {"id": "hidden.taoist.altar", "identity": "taoist", "region": "shrine", "priority": 18,
+   "conditions": {"talk_count_min": 2, "encounter_rarity_used": ["rare", "legendary"]},
+   "lines": [
+    "你在祠里动过东西了。",
+    "动了也好，这地方本就该有人来。供桌底下还有一层，寻常人摸不到。",
+    "你若再找到青玉片，拿来给我看。我不抢。"
+   ],
+   "setFlags": {"dlg.hidden.taoist.altar": true}},
+
+  {"id": "hidden.woodcutter.song", "identity": "woodcutter", "region": "bamboo", "priority": 16,
+   "conditions": {"talk_count_min": 5, "encounter_used": true},
+   "lines": [
+    "你身上有竹叶青的味儿。又去林子里转过了？",
+    "我小时候听我爹唱过一支砍竹调，调子里藏着半句剑诀。",
+    "我只记得最后三个字：听、雨、收。"
+   ],
+   "setFlags": {"dlg.hidden.woodcutter.song": true}},
+
+  {"id": "hidden.elder.sword", "identity": "elder", "region": "cliff", "priority": 30,
+   "conditions": {"talk_total_min": 12, "encounter_rarity_used": ["legendary"]},
+   "lines": [
+    "你见过云海那一剑了。",
+    "那不是剑法，是有人把自己的剑意留在了山里。你能看见，说明你的剑也快成了。",
+    "去吧。别学我，在崖边站四十年。"
+   ],
+   "setFlags": {"dlg.hidden.elder.sword": true}}
+ ]
+}

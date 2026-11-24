@@ -1,0 +1,18 @@
+diff --git a/tsr/models/isosurface.py b/tsr/models/isosurface.py
+index 076321b..54a919d 100644
+--- a/tsr/models/isosurface.py
++++ b/tsr/models/isosurface.py
+@@ -3,7 +3,12 @@ from typing import Callable, Optional, Tuple
+ import numpy as np
+ import torch
+ import torch.nn as nn
+-from torchmcubes import marching_cubes
++from skimage import measure as _skm
++def marching_cubes(level, thr):
++    v, f, _, _ = _skm.marching_cubes(level.numpy(), thr)
++    v = v[:, [2, 1, 0]].copy()  # match torchmcubes ordering (swapped back later)
++    f = f[:, [0, 2, 1]].copy()
++    return torch.from_numpy(v).float(), torch.from_numpy(f.astype(np.int64))
+ 
+ 
+ class IsosurfaceHelper(nn.Module):

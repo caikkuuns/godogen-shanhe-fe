@@ -1,0 +1,32 @@
+{
+ "schemaVersion": 1,
+ "maxLevel": 20,
+ "note": "升级需求逐级递增；单次机缘只给 1~3 点修为。等级只影响能否看懂机缘，不锁探索。",
+ "levels": [
+  {"level": 1,  "realm": "引气", "xpToNext": 10},
+  {"level": 2,  "realm": "引气", "xpToNext": 14},
+  {"level": 3,  "realm": "引气", "xpToNext": 19},
+  {"level": 4,  "realm": "凝息", "xpToNext": 25},
+  {"level": 5,  "realm": "凝息", "xpToNext": 32},
+  {"level": 6,  "realm": "凝息", "xpToNext": 40},
+  {"level": 7,  "realm": "开脉", "xpToNext": 49},
+  {"level": 8,  "realm": "开脉", "xpToNext": 59},
+  {"level": 9,  "realm": "开脉", "xpToNext": 70},
+  {"level": 10, "realm": "归元", "xpToNext": 82},
+  {"level": 11, "realm": "归元", "xpToNext": 95},
+  {"level": 12, "realm": "归元", "xpToNext": 109},
+  {"level": 13, "realm": "化劲", "xpToNext": 124},
+  {"level": 14, "realm": "化劲", "xpToNext": 140},
+  {"level": 15, "realm": "化劲", "xpToNext": 157},
+  {"level": 16, "realm": "通玄", "xpToNext": 175},
+  {"level": 17, "realm": "通玄", "xpToNext": 194},
+  {"level": 18, "realm": "通玄", "xpToNext": 214},
+  {"level": 19, "realm": "观海", "xpToNext": 235},
+  {"level": 20, "realm": "观海", "xpToNext": 0}
+ ],
+ "levelBands": [
+  {"id": "1-10", "min": 1, "max": 10, "label": "初窥门径"},
+  {"id": "11-20", "min": 11, "max": 20, "label": "渐入佳境"},
+  {"id": "21-30", "min": 21, "max": 30, "label": "山海深处"}
+ ]
+}

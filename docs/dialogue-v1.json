@@ -1,0 +1,1336 @@
+{
+ "schemaVersion": 1,
+ "id": "shanhe.dialogue.verticalSlice",
+ "contentVersion": "dialogue-v1",
+ "language": "zh-Hans",
+ "status": "proposal: ids/quest states/interaction points need mapping to implementation",
+ "evaluation": {
+  "conditionsList": "AND; empty list = true",
+  "logic": "three-valued (true/false/unknown); unknown => false at top level",
+  "unknownSources": [
+   "quest state 'unknown' (main unreadable)",
+   "side state 'disabled' (corrupt/unsupported block)"
+  ],
+  "missingFlag": "null",
+  "selection": "interactionPoints[point].dialogues in order, first whose conditions are true; none => nothing plays",
+  "commit": "setFlags+effects accumulated along path, committed only when an end node is fully reached; cancel discards",
+  "setFlagsNamespace": "dlg.",
+  "nodeConditionsFalse": "treat as cancel (no commit)"
+ },
+ "states": {
+  "main.zhouCommission": [
+   "notAccepted",
+   "accepted",
+   "delivered",
+   "unknown"
+  ],
+  "side.bambooCompanions": [
+   "locked",
+   "available",
+   "accepted",
+   "girlMet",
+   "bothMet",
+   "ready",
+   "completed",
+   "legacyClosed",
+   "disabled"
+  ]
+ },
+ "flagsRead": {
+  "battle.liheng.won": "set by battle system on victory (read-only for dialogue)",
+  "dlg.liheng.postSeen": "dialogue-local seen flag"
+ },
+ "effectTypes": {
+  "questEvent": {
+   "quest": "string",
+   "event": "string"
+  },
+  "startBattle": {
+   "battleId": "string"
+  }
+ },
+ "speakers": {
+  "shenyan": {
+   "displayName": "沈砚",
+   "nameStatus": "existing",
+   "appearance": "白衣背剑少年（男主）",
+   "panelSide": "left",
+   "portraits": {
+    "default": {
+     "key": "portrait.shenyan.default",
+     "sourceFile": "docs/ref-characters/shenyan_portrait.png",
+     "resPath": null
+    },
+    "serious": {
+     "key": "portrait.shenyan.serious",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "smile": {
+     "key": "portrait.shenyan.smile",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "linzhaowan": {
+   "displayName": "林照晚",
+   "nameStatus": "tentative",
+   "appearance": "粉衣背剑少女（女主）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.linzhaowan.default",
+     "sourceFile": "docs/ref-characters/linzhaowan_portrait.png",
+     "resPath": null
+    },
+    "smile": {
+     "key": "portrait.linzhaowan.smile",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "mingcheng": {
+   "displayName": "明澄",
+   "nameStatus": "tentative",
+   "appearance": "年轻僧人（沈砚好兄弟）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.mingcheng.default",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "smile": {
+     "key": "portrait.mingcheng.smile",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "zhoubo": {
+   "displayName": "周伯",
+   "nameStatus": "tentative",
+   "appearance": "褐衣老人（拟对应）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.zhoubo.default",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "smile": {
+     "key": "portrait.zhoubo.smile",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  },
+  "liheng": {
+   "displayName": "厉横",
+   "nameStatus": "tentative",
+   "appearance": "壮汉（拟对应）",
+   "panelSide": "right",
+   "portraits": {
+    "default": {
+     "key": "portrait.liheng.default",
+     "sourceFile": null,
+     "resPath": null
+    },
+    "angry": {
+     "key": "portrait.liheng.angry",
+     "sourceFile": null,
+     "resPath": null
+    }
+   }
+  }
+ },
+ "interactionPoints": {
+  "village.zhoubo": {
+   "scene": "village",
+   "dialogues": [
+    "zhou_main_offer",
+    "bc_zhou_invite",
+    "zhou_main_deliver",
+    "zhou_main_progress",
+    "bc_finale",
+    "bc_finale_replay",
+    "zhou_side_pending_girl",
+    "zhou_side_pending_monk",
+    "zhou_legacy_closed",
+    "zhou_idle"
+   ]
+  },
+  "bamboo.linzhaowan": {
+   "scene": "bamboo",
+   "dialogues": [
+    "bc_girl_meet",
+    "bc_girl_repeat",
+    "bc_girl_after",
+    "girl_stranger"
+   ]
+  },
+  "village.mingcheng": {
+   "scene": "village",
+   "dialogues": [
+    "bc_monk_join",
+    "bc_monk_wait",
+    "bc_monk_ready",
+    "bc_monk_after",
+    "monk_idle"
+   ]
+  },
+  "bamboo.liheng": {
+   "scene": "bamboo",
+   "dialogues": [
+    "liheng_prebattle",
+    "liheng_defeated_idle",
+    "liheng_idle"
+   ]
+  },
+  "battle_return.liheng_victory": {
+   "scene": "battle_return",
+   "dialogues": [
+    "liheng_postbattle"
+   ]
+  }
+ },
+ "dialogues": [
+  {
+   "id": "zhou_main_offer",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "zmo_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "notAccepted"
+    }
+   ],
+   "replayable": false,
+   "note": "主线委托接取（台词新增待审；zmo_05 取自 gameplay-spec §5 的提示建议）"
+  },
+  {
+   "id": "bc_zhou_invite",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "bzi_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "accepted"
+    },
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "available"
+    }
+   ],
+   "replayable": false,
+   "note": "竹影同路①：available→accepted。排在交付之前，避免先交付导致支线被 legacyClosed"
+  },
+  {
+   "id": "zhou_main_deliver",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "zmd_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "accepted"
+    },
+    {
+     "flag": "battle.liheng.won",
+     "equals": true
+    }
+   ],
+   "replayable": false,
+   "note": "主线交付（新增待审）。原任务奖励由原流程发放，本数据不授奖"
+  },
+  {
+   "id": "zhou_main_progress",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "zmp_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "accepted"
+    }
+   ],
+   "replayable": true,
+   "note": "主线进行中重复短台词"
+  },
+  {
+   "id": "bc_finale",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "bcf_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "delivered"
+    },
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "ready"
+    }
+   ],
+   "replayable": false,
+   "note": "竹影同路④收束：ready→completed，唯一结算点；奖励提示由运行时在一致性保存成功后显示"
+  },
+  {
+   "id": "bc_finale_replay",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "bfr_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "delivered"
+    },
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "completed"
+    }
+   ],
+   "replayable": true,
+   "note": "completed 可重播结尾：无 effects，不授奖、不弹获奖提示"
+  },
+  {
+   "id": "zhou_side_pending_girl",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "zsg_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "delivered"
+    },
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "accepted"
+    }
+   ],
+   "replayable": true,
+   "note": "主线已交付但支线未见少女（已接支线允许补对话）"
+  },
+  {
+   "id": "zhou_side_pending_monk",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "zsm_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "delivered"
+    },
+    {
+     "quest": "side.bambooCompanions",
+     "in": [
+      "girlMet",
+      "bothMet"
+     ]
+    }
+   ],
+   "replayable": true,
+   "note": "主线已交付、支线待见僧人。bothMet+已交付会被归并为 ready，此处 bothMet 仅作保险"
+  },
+  {
+   "id": "zhou_legacy_closed",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "zlc_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "delivered"
+    },
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "legacyClosed"
+    }
+   ],
+   "replayable": true,
+   "note": "legacyClosed：仅显示旧事已结，无补奖"
+  },
+  {
+   "id": "zhou_idle",
+   "trigger": {
+    "scene": "village",
+    "point": "village.zhoubo"
+   },
+   "entry": "zid_01",
+   "conditions": [],
+   "replayable": true,
+   "note": "兜底：主线未知/支线停用等任何未匹配情况"
+  },
+  {
+   "id": "bc_girl_meet",
+   "trigger": {
+    "scene": "bamboo",
+    "point": "bamboo.linzhaowan"
+   },
+   "entry": "bgm_01",
+   "conditions": [
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "accepted"
+    }
+   ],
+   "replayable": false,
+   "note": "竹影同路②：accepted→girlMet。两个选项汇合，不影响结果；药包仅作台词背景"
+  },
+  {
+   "id": "bc_girl_repeat",
+   "trigger": {
+    "scene": "bamboo",
+    "point": "bamboo.linzhaowan"
+   },
+   "entry": "bgr_01",
+   "conditions": [
+    {
+     "quest": "side.bambooCompanions",
+     "in": [
+      "girlMet",
+      "bothMet",
+      "ready"
+     ]
+    }
+   ],
+   "replayable": true,
+   "note": "相识后重复短台词"
+  },
+  {
+   "id": "bc_girl_after",
+   "trigger": {
+    "scene": "bamboo",
+    "point": "bamboo.linzhaowan"
+   },
+   "entry": "bga_01",
+   "conditions": [
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "completed"
+    }
+   ],
+   "replayable": true,
+   "note": "支线完成后重复短台词"
+  },
+  {
+   "id": "girl_stranger",
+   "trigger": {
+    "scene": "bamboo",
+    "point": "bamboo.linzhaowan"
+   },
+   "entry": "gst_01",
+   "conditions": [],
+   "replayable": true,
+   "note": "兜底：未接支线/legacyClosed/停用时，不透露姓名、不推进"
+  },
+  {
+   "id": "bc_monk_join",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "bmj_01",
+   "conditions": [
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "girlMet"
+    }
+   ],
+   "replayable": false,
+   "note": "竹影同路③：girlMet→bothMet。林照晚仅在对话中出场（叙事同行），不生成跟随角色"
+  },
+  {
+   "id": "bc_monk_wait",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "bmw_01",
+   "conditions": [
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "bothMet"
+    }
+   ],
+   "replayable": true,
+   "note": "bothMet 且主线未交付"
+  },
+  {
+   "id": "bc_monk_ready",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "bmr_01",
+   "conditions": [
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "ready"
+    }
+   ],
+   "replayable": true,
+   "note": "ready：提示回周伯处收束"
+  },
+  {
+   "id": "bc_monk_after",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "bma_01",
+   "conditions": [
+    {
+     "quest": "side.bambooCompanions",
+     "equals": "completed"
+    }
+   ],
+   "replayable": true,
+   "note": "支线完成后重复短台词"
+  },
+  {
+   "id": "monk_idle",
+   "trigger": {
+    "scene": "village",
+    "point": "village.mingcheng"
+   },
+   "entry": "mid_01",
+   "conditions": [],
+   "replayable": true,
+   "note": "兜底"
+  },
+  {
+   "id": "liheng_prebattle",
+   "trigger": {
+    "scene": "bamboo",
+    "point": "bamboo.liheng"
+   },
+   "entry": "lpb_01",
+   "conditions": [
+    {
+     "quest": "main.zhouCommission",
+     "equals": "accepted"
+    },
+    {
+     "not": {
+      "flag": "battle.liheng.won",
+      "equals": true
+     }
+    }
+   ],
+   "replayable": true,
+   "note": "战前：两个选项汇合后开战；失败可再次触发（战斗侧回快照）"
+  },
+  {
+   "id": "liheng_defeated_idle",
+   "trigger": {
+    "scene": "bamboo",
+    "point": "bamboo.liheng"
+   },
+   "entry": "ldi_01",
+   "conditions": [
+    {
+     "flag": "battle.liheng.won",
+     "equals": true
+    }
+   ],
+   "replayable": true,
+   "note": "若战后厉横仍留在交互点时的重复短台词（是否消失待核实）"
+  },
+  {
+   "id": "liheng_idle",
+   "trigger": {
+    "scene": "bamboo",
+    "point": "bamboo.liheng"
+   },
+   "entry": "lid_01",
+   "conditions": [],
+   "replayable": true,
+   "note": "兜底：未接委托时不开战"
+  },
+  {
+   "id": "liheng_postbattle",
+   "trigger": {
+    "scene": "battle_return",
+    "point": "battle_return.liheng_victory"
+   },
+   "entry": "lpo_01",
+   "conditions": [
+    {
+     "flag": "battle.liheng.won",
+     "equals": true
+    },
+    {
+     "not": {
+      "flag": "dlg.liheng.postSeen",
+      "equals": true
+     }
+    }
+   ],
+   "replayable": false,
+   "note": "战后一次性：战斗胜利返回探索时触发；胜利≠交付，不发 questEvent"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "zmo_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "后生，可是要往竹林那头去？",
+   "locKey": "dlg.zmo_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "next": "zmo_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_main_offer"
+  },
+  {
+   "id": "zmo_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "正要进山。老伯有事相托？",
+   "locKey": "dlg.zmo_02",
+   "source": "new-pending-review",
+   "conditions": [],
+   "next": "zmo_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_main_offer"
+  },
+  {
+   "id": "zmo_03",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "竹林里来了个叫厉横的恶汉，拦路截人，村里没人敢进山。",
+   "locKey": "dlg.zmo_03",
+   "source": "new-pending-review",
+   "conditions": [],
+   "next": "zmo_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_main_offer"
+  },
+  {
+   "id": "zmo_04",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "你若遇上，替我们把他赶走，回来同我说一声。",
+   "locKey": "dlg.zmo_04",
+   "source": "new-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "zmo_04_c1",
+     "text": "交给我。",
+     "locKey": "dlg.zmo_04_c1",
+     "next": "zmo_06",
+     "conditions": [],
+     "source": "new-pending-review"
+    },
+    {
+     "id": "zmo_04_c2",
+     "text": "那人什么来路？",
+     "locKey": "dlg.zmo_04_c2",
+     "next": "zmo_05",
+     "conditions": [],
+     "source": "new-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_main_offer"
+  },
+  {
+   "id": "zmo_05",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "他砍两刀便要蓄一回力，见他握紧刀柄，下一刀就是重的。",
+   "locKey": "dlg.zmo_05",
+   "source": "gameplay-spec-5-pending-review",
+   "conditions": [],
+   "next": "zmo_06",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_main_offer"
+  },
+  {
+   "id": "zmo_06",
+   "speaker": "shenyan",
+   "expression": "smile",
+   "text": "放心，我去去就回。",
+   "locKey": "dlg.zmo_06",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "main.zhouCommission",
+     "event": "accept"
+    }
+   ],
+   "dialogue": "zhou_main_offer"
+  },
+  {
+   "id": "bzi_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "竹林里有位背剑姑娘，遇见了替我问声平安。",
+   "locKey": "dlg.bzi_01",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bzi_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_zhou_invite"
+  },
+  {
+   "id": "bzi_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "您交代的事，我一起留心。",
+   "locKey": "dlg.bzi_02",
+   "source": "story-data",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.bambooCompanions",
+     "event": "talkZhou"
+    }
+   ],
+   "dialogue": "bc_zhou_invite"
+  },
+  {
+   "id": "zmd_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "听动静，竹林那头安生了？",
+   "locKey": "dlg.zmd_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "next": "zmd_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_main_deliver"
+  },
+  {
+   "id": "zmd_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "厉横已经走了，山路能过人了。",
+   "locKey": "dlg.zmd_02",
+   "source": "new-pending-review",
+   "conditions": [],
+   "next": "zmd_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_main_deliver"
+  },
+  {
+   "id": "zmd_03",
+   "speaker": "zhoubo",
+   "expression": "smile",
+   "text": "好，好！村里人总算能进山了。这份情，我记下了。",
+   "locKey": "dlg.zmd_03",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "main.zhouCommission",
+     "event": "deliver"
+    }
+   ],
+   "dialogue": "zhou_main_deliver"
+  },
+  {
+   "id": "zmp_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "厉横还在竹林里，当心他那口重刀。",
+   "locKey": "dlg.zmp_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_main_progress"
+  },
+  {
+   "id": "bcf_01",
+   "speaker": "zhoubo",
+   "expression": "smile",
+   "text": "事情办妥了，路上也有伴了。",
+   "locKey": "dlg.bcf_01",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bcf_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale"
+  },
+  {
+   "id": "bcf_02",
+   "speaker": "mingcheng",
+   "expression": "smile",
+   "text": "一路同行，饭钱各付。",
+   "locKey": "dlg.bcf_02",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bcf_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale"
+  },
+  {
+   "id": "bcf_03",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "先说好，不许替我拔剑。",
+   "locKey": "dlg.bcf_03",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bcf_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale"
+  },
+  {
+   "id": "bcf_04",
+   "speaker": "shenyan",
+   "expression": "smile",
+   "text": "好，山河路远，我们一起走。",
+   "locKey": "dlg.bcf_04",
+   "source": "story-data",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.bambooCompanions",
+     "event": "talkZhou"
+    }
+   ],
+   "dialogue": "bc_finale"
+  },
+  {
+   "id": "bfr_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "路上有伴，比什么都强。",
+   "locKey": "dlg.bfr_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "bfr_01_c1",
+     "text": "再说说那天的事。",
+     "locKey": "dlg.bfr_01_c1",
+     "next": "bfr_02",
+     "conditions": [],
+     "source": "new-pending-review"
+    },
+    {
+     "id": "bfr_01_c2",
+     "text": "该上路了。",
+     "locKey": "dlg.bfr_01_c2",
+     "next": "bfr_06",
+     "conditions": [],
+     "source": "new-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale_replay"
+  },
+  {
+   "id": "bfr_02",
+   "speaker": "zhoubo",
+   "expression": "smile",
+   "text": "事情办妥了，路上也有伴了。",
+   "locKey": "dlg.bfr_02",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bfr_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale_replay"
+  },
+  {
+   "id": "bfr_03",
+   "speaker": "mingcheng",
+   "expression": "smile",
+   "text": "一路同行，饭钱各付。",
+   "locKey": "dlg.bfr_03",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bfr_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale_replay"
+  },
+  {
+   "id": "bfr_04",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "先说好，不许替我拔剑。",
+   "locKey": "dlg.bfr_04",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bfr_05",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale_replay"
+  },
+  {
+   "id": "bfr_05",
+   "speaker": "shenyan",
+   "expression": "smile",
+   "text": "好，山河路远，我们一起走。",
+   "locKey": "dlg.bfr_05",
+   "source": "story-data",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale_replay"
+  },
+  {
+   "id": "bfr_06",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "去吧，山里雾大，走路看脚下。",
+   "locKey": "dlg.bfr_06",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_finale_replay"
+  },
+  {
+   "id": "zsg_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "竹林里那位背剑姑娘，你见着了吗？不急，见着了再来。",
+   "locKey": "dlg.zsg_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_side_pending_girl"
+  },
+  {
+   "id": "zsm_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "明澄那孩子在村口转了半天，你去打声招呼吧。",
+   "locKey": "dlg.zsm_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_side_pending_monk"
+  },
+  {
+   "id": "zlc_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "竹林的事早了结了，你这一路辛苦。",
+   "locKey": "dlg.zlc_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_legacy_closed"
+  },
+  {
+   "id": "zid_01",
+   "speaker": "zhoubo",
+   "expression": "default",
+   "text": "山里雾大，走路看脚下。",
+   "locKey": "dlg.zid_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "zhou_idle"
+  },
+  {
+   "id": "bgm_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "我在寻药包，不是在等人搭救。",
+   "locKey": "dlg.bgm_01",
+   "source": "story-data",
+   "conditions": [],
+   "nameOverride": "背剑少女",
+   "choices": [
+    {
+     "id": "bgm_01_c1",
+     "text": "那便各做各的，遇事互相照应。",
+     "locKey": "dlg.bgm_01_c1",
+     "next": "bgm_04",
+     "conditions": [],
+     "source": "story-data"
+    },
+    {
+     "id": "bgm_01_c2",
+     "text": "周伯托我问你一声平安。",
+     "locKey": "dlg.bgm_01_c2",
+     "next": "bgm_02",
+     "conditions": [],
+     "source": "new-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_girl_meet"
+  },
+  {
+   "id": "bgm_02",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "周伯？……替我谢过老人家。",
+   "locKey": "dlg.bgm_02",
+   "source": "new-pending-review",
+   "conditions": [],
+   "nameOverride": "背剑少女",
+   "next": "bgm_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_girl_meet"
+  },
+  {
+   "id": "bgm_03",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "那便各做各的，遇事互相照应。",
+   "locKey": "dlg.bgm_03",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bgm_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_girl_meet"
+  },
+  {
+   "id": "bgm_04",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "林照晚。你的名字，我记下了。",
+   "locKey": "dlg.bgm_04",
+   "source": "story-data",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.bambooCompanions",
+     "event": "talkGirl"
+    }
+   ],
+   "dialogue": "bc_girl_meet"
+  },
+  {
+   "id": "bgr_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "药包的事我自己来，你忙你的。",
+   "locKey": "dlg.bgr_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_girl_repeat"
+  },
+  {
+   "id": "bga_01",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "说好了的，不许替我拔剑。",
+   "locKey": "dlg.bga_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_girl_after"
+  },
+  {
+   "id": "gst_01",
+   "speaker": "linzhaowan",
+   "expression": "default",
+   "text": "竹林路窄，借过。",
+   "locKey": "dlg.gst_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "nameOverride": "背剑少女",
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "girl_stranger"
+  },
+  {
+   "id": "bmj_01",
+   "speaker": "mingcheng",
+   "expression": "default",
+   "text": "沈砚，你下山也不叫我？",
+   "locKey": "dlg.bmj_01",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bmj_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_monk_join"
+  },
+  {
+   "id": "bmj_02",
+   "speaker": "shenyan",
+   "expression": "smile",
+   "text": "好兄弟，来得正好。这位是林照晚。",
+   "locKey": "dlg.bmj_02",
+   "source": "story-data",
+   "conditions": [],
+   "next": "bmj_03",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_monk_join"
+  },
+  {
+   "id": "bmj_03",
+   "speaker": "linzhaowan",
+   "expression": "smile",
+   "text": "一个急着赶路，一个还肯等人，倒也相配。",
+   "locKey": "dlg.bmj_03",
+   "source": "story-data",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "questEvent",
+     "quest": "side.bambooCompanions",
+     "event": "talkMonk"
+    }
+   ],
+   "dialogue": "bc_monk_join"
+  },
+  {
+   "id": "bmw_01",
+   "speaker": "mingcheng",
+   "expression": "default",
+   "text": "先把周伯的事办了，我们在村口等你。",
+   "locKey": "dlg.bmw_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_monk_wait"
+  },
+  {
+   "id": "bmr_01",
+   "speaker": "mingcheng",
+   "expression": "smile",
+   "text": "去见周伯吧，他还念叨着你呢。",
+   "locKey": "dlg.bmr_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_monk_ready"
+  },
+  {
+   "id": "bma_01",
+   "speaker": "mingcheng",
+   "expression": "smile",
+   "text": "饭钱各付，这话我可没说笑。",
+   "locKey": "dlg.bma_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "bc_monk_after"
+  },
+  {
+   "id": "mid_01",
+   "speaker": "mingcheng",
+   "expression": "default",
+   "text": "沈砚，要出门办事？路上当心。",
+   "locKey": "dlg.mid_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "monk_idle"
+  },
+  {
+   "id": "lpb_01",
+   "speaker": "liheng",
+   "expression": "angry",
+   "text": "这条路归我管，过路的留下买路钱。",
+   "locKey": "dlg.lpb_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "choices": [
+    {
+     "id": "lpb_01_c1",
+     "text": "周伯托我来，请你离开竹林。",
+     "locKey": "dlg.lpb_01_c1",
+     "next": "lpb_02",
+     "conditions": [],
+     "source": "new-pending-review"
+    },
+    {
+     "id": "lpb_01_c2",
+     "text": "（按住剑柄，不答话）",
+     "locKey": "dlg.lpb_01_c2",
+     "next": "lpb_03",
+     "conditions": [],
+     "source": "new-pending-review"
+    }
+   ],
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "liheng_prebattle"
+  },
+  {
+   "id": "lpb_02",
+   "speaker": "liheng",
+   "expression": "angry",
+   "text": "老东西倒会找帮手。",
+   "locKey": "dlg.lpb_02",
+   "source": "new-pending-review",
+   "conditions": [],
+   "next": "lpb_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "liheng_prebattle"
+  },
+  {
+   "id": "lpb_03",
+   "speaker": "liheng",
+   "expression": "angry",
+   "text": "嘿，还是个闷葫芦。",
+   "locKey": "dlg.lpb_03",
+   "source": "new-pending-review",
+   "conditions": [],
+   "next": "lpb_04",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "liheng_prebattle"
+  },
+  {
+   "id": "lpb_04",
+   "speaker": "liheng",
+   "expression": "angry",
+   "text": "那就手底下见真章！",
+   "locKey": "dlg.lpb_04",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [
+    {
+     "type": "startBattle",
+     "battleId": "liheng"
+    }
+   ],
+   "dialogue": "liheng_prebattle"
+  },
+  {
+   "id": "ldi_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "别看了，我这就走。",
+   "locKey": "dlg.ldi_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "liheng_defeated_idle"
+  },
+  {
+   "id": "lid_01",
+   "speaker": "liheng",
+   "expression": "angry",
+   "text": "小子，没事别往这边凑。",
+   "locKey": "dlg.lid_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "liheng_idle"
+  },
+  {
+   "id": "lpo_01",
+   "speaker": "liheng",
+   "expression": "default",
+   "text": "……算你狠，这片竹林我不待了。",
+   "locKey": "dlg.lpo_01",
+   "source": "new-pending-review",
+   "conditions": [],
+   "next": "lpo_02",
+   "setFlags": {},
+   "effects": [],
+   "dialogue": "liheng_postbattle"
+  },
+  {
+   "id": "lpo_02",
+   "speaker": "shenyan",
+   "expression": "default",
+   "text": "回去给周伯报个信。",
+   "locKey": "dlg.lpo_02",
+   "source": "new-pending-review",
+   "conditions": [],
+   "end": true,
+   "setFlags": {
+    "dlg.liheng.postSeen": true
+   },
+   "effects": [],
+   "dialogue": "liheng_postbattle"
+  }
+ ]
+}

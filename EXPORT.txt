@@ -1,0 +1,5 @@
+branch: fe
+commit: 6aef439
+date: 2026-11-17 20:40 CST
+说明: 这是可在 Godot 4.7.2 中打开的项目（打开 godogen-shanhe-fe/project.godot）。
+本包不含 docs/ 角色参考图和 captures/ 录像，以免体积过大；如需可另要。
