@@ -12,6 +12,15 @@ uniform vec3 fill_color : source_color = vec3(0.86, 0.86, 0.88);
 // TripoSR 贴图整体偏暗（葛三秤/厉横平均亮度只有 0.08–0.13），
 // 不补光会变成黑剪影；按模型给 1.0–1.8 的增益。
 uniform float albedo_gain : hint_range(0.5, 3.0) = 1.0;
+// 第十轮：gutter 填充总开关。
+// gutter 的本意是把 TripoSR atlas 里岛与岛之间的灰底空隙涂成布料色，
+// 但它的判定条件（0.18<=lum<0.62 且低饱和）同时会把白袍的褶皱暗部、
+// UV 岛边缘的过渡像素一并刷成 0.86 亮灰 + 0.85 自发光 —— 这就是第10轮
+// 美术评审判定的 P0「白袍碎三角斑」的直接成因（实测岛内 16.6% 像素命中）。
+// 贴图侧已做 UV 岛边缘扩张（gutter 像素被邻岛色填满，见
+// docs/round10/贴图修复说明.md），所以沈砚 hero 版可以整体关掉填充；
+// 其它未做贴图处理的老模型保持 1.0，行为不变。
+uniform float gutter_enabled : hint_range(0.0, 1.0) = 1.0;
 
 void fragment() {
 	vec3 c = texture(albedo_tex, UV).rgb * albedo_tint.rgb * albedo_gain;
@@ -25,7 +34,7 @@ void fragment() {
 	bool skin = lum > 0.28 && c.r >= c.g - 0.03 && c.r > c.b
 		&& (c.r > c.b + 0.018 || (lum > 0.48 && c.r > c.b + 0.006));
 	bool trim = c.b > c.r + 0.07 && c.b > c.g + 0.04 && chroma > 0.10;
-	bool gutter = lum >= 0.18 && lum < 0.62 && chroma < 0.14
+	bool gutter = gutter_enabled > 0.5 && lum >= 0.18 && lum < 0.62 && chroma < 0.14
 		&& !skin && !trim && (uv_edge || lum < 0.56);
 	if (gutter) {
 		c = fill_color;

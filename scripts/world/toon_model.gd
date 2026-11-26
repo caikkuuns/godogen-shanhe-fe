@@ -49,6 +49,17 @@ static func hole_grow_for(path: String) -> float:
 		_:
 			return 0.006
 
+## 第十轮：atlas 空隙填充（gutter）开关。
+## shenyan hero 的贴图已做 UV 岛边缘扩张，岛间空隙被邻岛色填满，
+## 再让 shader 按亮度瞎填只会把袍子褶皱刷成亮灰碎斑（P0-1），故关掉。
+## 其余老模型贴图未处理，保持 1.0。
+static func gutter_for(path: String) -> float:
+	match path.get_file().get_basename():
+		"shenyan", "shenyan_hero":
+			return 0.0
+		_:
+			return 1.0
+
 ## 贴图亮度补偿：TripoSR 的 albedo 整体偏暗，黑衣服模型需要更高增益。
 static func gain_for(path: String) -> float:
 	match path.get_file().get_basename():
@@ -126,13 +137,14 @@ static func optimized_scene_for(path: String) -> PackedScene:
 ## instead of grey-lit back faces. The ink hull is chained after that.
 static func make_textured(tex: Texture2D, tint: float, fill: Color,
 		tint_color: Color = Color.WHITE, gain: float = 1.0,
-		hole_grow: float = 0.006) -> ShaderMaterial:
+		hole_grow: float = 0.006, gutter: float = 1.0) -> ShaderMaterial:
 	var albedo := Color(tint, tint, tint, 1.0) * tint_color
 	var toon := ShaderMaterial.new()
 	toon.shader = load("res://shaders/toon_char_front.gdshader") as Shader
 	toon.set_shader_parameter("albedo_tex", tex)
 	toon.set_shader_parameter("albedo_tint", albedo)
 	toon.set_shader_parameter("albedo_gain", gain)
+	toon.set_shader_parameter("gutter_enabled", gutter)
 	toon.set_shader_parameter("self_light", SELF_LIGHT * tint)
 	toon.set_shader_parameter("fill_color", Vector3(fill.r, fill.g, fill.b))
 	var back := ShaderMaterial.new()
@@ -195,7 +207,7 @@ static func make_vcol(tex: Texture2D, tint: float, fill: Color,
 
 static func apply(node: Node, tint: float = 1.0, fill: Color = Color(0.86, 0.86, 0.88),
 		tint_color: Color = Color.WHITE, gain: float = -1.0,
-		hole_grow: float = 0.006) -> void:
+		hole_grow: float = 0.006, gutter: float = 1.0) -> void:
 	if node is MeshInstance3D:
 		var mi := node as MeshInstance3D
 		if mi.mesh != null:
@@ -216,7 +228,7 @@ static func apply(node: Node, tint: float = 1.0, fill: Color = Color(0.86, 0.86,
 					var source := mi.get_active_material(i) as BaseMaterial3D
 					var mat: Material
 					if source != null and source.albedo_texture != null:
-						mat = make_textured(source.albedo_texture, tint, fill, tint_color, gain, hole_grow)
+						mat = make_textured(source.albedo_texture, tint, fill, tint_color, gain, hole_grow, gutter)
 					else:
 						var toon := StandardMaterial3D.new()
 						toon.diffuse_mode = BaseMaterial3D.DIFFUSE_TOON
@@ -234,7 +246,7 @@ static func apply(node: Node, tint: float = 1.0, fill: Color = Color(0.86, 0.86,
 						mat = toon
 					mi.set_surface_override_material(i, mat)
 	for child: Node in node.get_children():
-		apply(child, tint, fill, tint_color, gain, hole_grow)
+		apply(child, tint, fill, tint_color, gain, hole_grow, gutter)
 
 ## Instantiate a GLB, normalize its height to [height_m] (0 = keep authored
 ## height), apply the toon look and start its looping idle clip.
@@ -267,7 +279,8 @@ static func instantiate_raw(path: String, tint: float = 1.0, height_m: float = 0
 static func _finish_instance(model: Node3D, path: String, tint: float,
 		height_m: float, tint_color: Color) -> Node3D:
 	_normalize(model, height_m)
-	apply(model, tint, fill_color_for(path), tint_color, gain_for(path), hole_grow_for(path))
+	apply(model, tint, fill_color_for(path), tint_color, gain_for(path), hole_grow_for(path),
+			gutter_for(path))
 	IdleBreath.attach_to(model)
 	_tweak_held_props(model)
 	var anim := model.find_child("AnimationPlayer", true, false) as AnimationPlayer
