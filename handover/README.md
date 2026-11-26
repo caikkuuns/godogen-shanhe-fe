@@ -5,9 +5,9 @@
 ## 代码在哪
 
 - **仓库**：https://github.com/caikkuuns/godogen-shanhe-fe
-- **私有**：是（未登录访问 404，别人看不到）
+- **可见性**：必须是 **Private**。2026-11-26 曾被发现处于公开状态（匿名访问返回 200），已切回私有并核实。**任何人不得把本仓库改成 Public**——要公开先按 `docs/仓库脱敏清单.md` 脱敏。
 - **默认分支**：`master`
-- **服务器**：xiaoyan@100.85.162.93，项目 `~/games/godogen-shanhe-fe`（服务器上的 git remote 指向本机 `/DATA/GameDev/repos/shanhe.git`，不是 GitHub）
+- **服务器**：地址与路径见本地 `~/server-notes.md`（不入库）。服务器上的 git remote 指向本机裸仓库，不是 GitHub。
 
 ## 规矩
 
@@ -25,10 +25,10 @@
 
 | 项目 | 状态 |
 |---|---|
-| GitHub 私有仓库 | 已建，428 文件 / 107.6 MB |
+| GitHub 仓库 | 已建（Private），433 文件 |
 | 第10轮地形亮度修复 | 已进 GitHub（`scripts/world/chunk_builder.gd:65` `Color(1.92, 1.87, 2.23)`） |
 | 沈砚 opt/hero 接入 | 已进 GitHub（`scripts/world/character_model.gd`） |
-| 建模 P0 两项（白袍碎斑、脸部错位） | **未修** |
+| 建模 P0 两项（白袍碎斑、脸部错位） | 代码侧已修（`ad6b72b`），待服务器真渲染验证 |
 | kimi_walk 8 帧截图 | **未产出**（本轮硬指标） |
 | APK 出包 | 未开始 |
 

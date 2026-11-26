@@ -1,0 +1,10 @@
+{
+  "_comment": "复制成 .mcp.json 后按自己机器改路径。.mcp.json 已被 .gitignore 忽略，不会入库。",
+  "mcpServers": {
+    "grok-bot": {
+      "command": "<HOME>/tools/grokbot/run.sh",
+      "args": [],
+      "env": {}
+    }
+  }
+}

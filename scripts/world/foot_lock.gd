@@ -40,11 +40,19 @@ const LIFT_Y := 0.16
 
 
 func _ready() -> void:
-	process_priority = 50
-	process_physics_priority = 50
-	set_process(true)
-	set_physics_process(true)
+	# 第10轮修复：FootLock 继承 SkeletonModifier3D，骨骼写入必须走
+	# _process_modification_with_delta()——那是引擎骨骼更新管线里的官方时机。
+	# 之前同时开 set_process 和 set_physics_process、在里面各自 _apply()，
+	# 同一帧写两次骨骼：第二次基于第一次的修正再算，行走时把支撑脚钉死在
+	# 上一帧的落点（报告 P0「行走锁脚」）。这里改回单一官方通道。
+	set_process(false)
+	set_physics_process(false)
 	_bind(get_skeleton())
+	if skel == null:
+		# 挂载时骨架可能还没进树；等一帧再绑，避免 test_foot_lock 的
+		# 「skeleton 为空」噪音报错。
+		await get_tree().process_frame
+		_bind(get_skeleton())
 
 
 func _skeleton_changed(_old: Skeleton3D, new_s: Skeleton3D) -> void:
@@ -109,18 +117,10 @@ func sole_world(idx: int) -> Vector3:
 	return skel.global_transform * (gpose * local)
 
 
-func _process(_delta: float) -> void:
+func _process_modification_with_delta(_delta: float) -> void:
+	# 唯一写入点：动画树已求值完毕，骨骼姿态在这里定稿。
 	ticks += 1
 	_apply()
-
-
-func _physics_process(_delta: float) -> void:
-	_apply()
-
-
-func _process_modification_with_delta(_delta: float) -> void:
-	# The authoritative pass is the late Node process, after AnimationTree.
-	pass
 
 
 func _apply() -> void:

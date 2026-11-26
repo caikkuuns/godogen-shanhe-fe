@@ -13,13 +13,16 @@ const PLAYER_SPEED_TINT := 4.0
 ## 同屏最多渲染 10 个 NPC；20m 外隐藏，15m 外冻结骨骼动画。
 const NPC_RENDER_BUDGET := 10
 ## 对话/HUD 的 2D 立绘头像继续用（3D 模型只负责探索态人物）。
+## 立绘统一放 assets/portraits/（docs/ 不进导出包）。
 const PORTRAITS := {
-	"shenyan": "res://docs/ref-characters-v3/shenyan_portrait_v2.png",
-	"linzhaowan": "res://docs/ref-characters-v3/linzhaowan_portrait_v2.png",
-	"zhoubo": "res://docs/ref-characters-v3/npc/zhoubo_portrait_v3.png",
-	"mingcheng": "res://docs/ref-characters-v3/npc/mingcheng_portrait_v3.png",
-	"liheng": "res://docs/ref-characters-v3/npc/liheng_portrait_v3.png",
+	"shenyan": "res://assets/portraits/shenyan_portrait.png",
+	"linzhaowan": "res://assets/portraits/linzhaowan_portrait.png",
+	"zhoubo": "res://assets/portraits/zhoubo_portrait.png",
+	"mingcheng": "res://assets/portraits/mingcheng_portrait.png",
+	"liheng": "res://assets/portraits/liheng_portrait.png",
+	"gesancheng": "res://assets/portraits/gesancheng_portrait.png",
 }
+const PORTRAIT_FALLBACK := "res://assets/portraits/unknown_portrait.png"
 
 var regions_cfg: Dictionary = {}
 var world_cfg: Dictionary = {}
@@ -55,7 +58,11 @@ var _post_layer: CanvasLayer
 
 func _ready() -> void:
 	if not _load_regions():
+		# 之前只 push_error 就继续往下建，会带着空 regions_cfg 生成一个
+		# 没有区块、没有 NPC、主角落在默认坐标的"空世界"——玩家看到的是
+		# 一片空白却没有任何报错提示。这里直接中止初始化。
 		push_error("OpenWorld: " + str(regions_cfg.get("_error", "regions load failed")))
+		return
 	factory = BuildingFactory.new(20261121)
 	terrain = ChunkBuilder.new(self, factory)
 	_static_root = Node3D.new()
@@ -102,13 +109,18 @@ func _process(delta: float) -> void:
 func _load_regions() -> bool:
 	var f := FileAccess.open(REGIONS_PATH, FileAccess.READ)
 	if f == null:
+		regions_cfg = {"_error": "regions.json 打不开：%s" % REGIONS_PATH}
 		return false
 	var json := JSON.new()
-	if json.parse(f.get_as_text()) != OK:
+	var parse_err := json.parse(f.get_as_text())
+	if parse_err != OK:
+		regions_cfg = {"_error": "regions.json 解析失败（第 %d 行）：%s"
+			% [json.get_error_line(), json.get_error_message()]}
 		f.close()
 		return false
 	f.close()
 	if typeof(json.data) != TYPE_DICTIONARY:
+		regions_cfg = {"_error": "regions.json 顶层不是对象"}
 		return false
 	regions_cfg = json.data
 	world_cfg = regions_cfg.get("world", {})

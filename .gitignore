@@ -1,27 +1,32 @@
+# 本地/协作运行时产物，不入库
 .agents
-AGENTS.md
 .codex
 godot-gdscript.md
-/tripo-out
-assets/*
-# 应用图标是导出必需的小文件，单独纳入版本库（其余大资产仍不入库）。
-!assets/branding/
-assets/branding/*
-!assets/branding/*.png
-!assets/branding/*.import
-screenshots
-.godot
-*.import
+.claude-session-id
+.shift/
 cc-run*.log
 codex-run*.log
+
+# Godot 缓存与构建
 .godot/
 build/
-# 角色网格预烘焙产物：由 tools/bake_character_meshes.gd 生成，可随时重建。
 generated/
+/tripo-out
+screenshots
+captures/
+incoming/
+backups/
+docs/ref-characters*
+docs/ref-characters-v3*
 
-# 服务器侧
-.claude-session-id
-build/
-
-# 应用图标的 import 元数据必须跟随图标入库
-!assets/branding/*.import
+# 本机配置与密钥
+# .mcp.json 里写过本机绝对路径（/home/<user>/tools/...），换机器就失效，
+# 也暴露本地用户名。用 .mcp.example.json 作模板，复制成 .mcp.json 后填自己的路径。
+.mcp.json
+.env
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+export_presets.local.cfg

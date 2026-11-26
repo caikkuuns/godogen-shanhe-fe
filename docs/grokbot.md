@@ -6,7 +6,7 @@
 | 插件源码 | `~/tools/grokbot/plugin`（MCP 服务，Node，无需额外依赖） |
 | 启动器 | `~/tools/grokbot/run.sh`（读取令牌后 exec MCP） |
 | 令牌文件 | `~/.dsh/grok-bot.json`（`accessToken` + `machineId`，600，当前为空占位） |
-| 项目 MCP 配置 | `~/games/godogen-shanhe-fe/.mcp.json` → `grok-bot` |
+| 项目 MCP 配置 | `<project>/.mcp.json` → `grok-bot` |
 
 ## 已提供的工具（12 个）
 `grok_bot_status` `grok_bot_list` `grok_bot_ask` `grok_bot_ask_team` `grok_bot_wait`

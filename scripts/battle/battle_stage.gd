@@ -99,16 +99,19 @@ func setup(battle_id: String) -> void:
 		enemy_anim.set_combat(true)
 
 func _clear_fighters() -> void:
+	# 第10轮修复：先停动画姿态，再释放节点。原来先 queue_free 再调
+	# player_anim.set_combat(false)，而 queue_free 只是排队、节点当帧还活着，
+	# 但 _player_model 已被置空——set_combat 若回头摸模型就会拿到失效引用。
+	if player_anim != null:
+		player_anim.set_combat(false)
+	if enemy_anim != null:
+		enemy_anim.set_combat(false)
 	if _player_model != null:
 		_player_model.queue_free()
 		_player_model = null
 	if _enemy_model != null:
 		_enemy_model.queue_free()
 		_enemy_model = null
-	if player_anim != null:
-		player_anim.set_combat(false)
-	if enemy_anim != null:
-		enemy_anim.set_combat(false)
 	player_anim = null
 	enemy_anim = null
 

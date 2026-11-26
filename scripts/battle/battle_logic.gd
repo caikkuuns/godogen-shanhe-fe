@@ -21,6 +21,22 @@ var lost := false
 ## Presentation-ready combat log; the battle UI can render these lines as-is.
 var log_lines: Array[String] = []
 
+## 玩家战斗属性。默认取静态常量，进战时可用 setup_stats() 注入 GameState 的
+## 成长结果。第10轮修复：之前所有伤害/血量判定都直读 D.PLAYER_MAX_HP 等常量，
+## 玩家在局外涨的血量上限、攻防进战会被 clampi 截断回初始值，成长等于白涨。
+var player_max_hp := D.PLAYER_MAX_HP
+var player_attack := D.PLAYER_ATTACK
+var player_defense := D.PLAYER_DEFENSE
+
+## 注入局外成长后的属性。缺省字段保持常量值。
+func setup_stats(stats: Dictionary) -> void:
+	if stats.has("max_hp"):
+		player_max_hp = maxi(1, int(stats["max_hp"]))
+	if stats.has("attack"):
+		player_attack = maxi(1, int(stats["attack"]))
+	if stats.has("defense"):
+		player_defense = maxi(0, int(stats["defense"]))
+
 var entry_hp := D.PLAYER_MAX_HP
 var entry_potions := D.PLAYER_START_POTIONS
 
@@ -35,8 +51,10 @@ var heavy_log := D.ENEMY_HEAVY_LOG
 var intro_log := ""
 
 ## The caller may pass the exploration HP/potion counts as the entry snapshot.
-func _init(start_hp: int = D.PLAYER_MAX_HP, start_potions: int = D.PLAYER_START_POTIONS) -> void:
-	entry_hp = clampi(start_hp, 1, D.PLAYER_MAX_HP)
+func _init(start_hp: int = -1, start_potions: int = D.PLAYER_START_POTIONS) -> void:
+	if start_hp < 0:
+		start_hp = player_max_hp
+	entry_hp = clampi(start_hp, 1, player_max_hp)
 	entry_potions = maxi(0, start_potions)
 	set_battle_id(D.DEFAULT_BATTLE_ID)
 	reset_fight()
@@ -98,9 +116,9 @@ static func damage_formula(attack: int, multiplier: float, defense: int) -> int:
 func player_attack_damage(action: String) -> int:
 	match action:
 		"attack":
-			return damage_formula(D.PLAYER_ATTACK, D.ATTACK_MULT, enemy_defense)
+			return damage_formula(player_attack, D.ATTACK_MULT, enemy_defense)
 		"skill":
-			return damage_formula(D.PLAYER_ATTACK, D.SKILL_MULT, enemy_defense)
+			return damage_formula(player_attack, D.SKILL_MULT, enemy_defense)
 	return 0
 
 func _cycle_multiplier(action: String) -> float:
@@ -119,7 +137,7 @@ func enemy_action_damage(action: String, multiplier: float = -1.0) -> int:
 			match action:
 				"attack": mult = D.ENEMY_ATTACK_MULT
 				"heavy": mult = D.ENEMY_HEAVY_MULT
-	var raw := damage_formula(enemy_attack, mult, D.PLAYER_DEFENSE)
+	var raw := damage_formula(enemy_attack, mult, player_defense)
 	if guarding:
 		return floori(float(raw) * D.GUARD_MULT)
 	return raw
@@ -133,7 +151,7 @@ func can_act(action: String) -> bool:
 		"skill":
 			return qi >= D.SKILL_QI_COST
 		"potion":
-			return potions > 0 and hp < D.PLAYER_MAX_HP
+			return potions > 0 and hp < player_max_hp
 	return false
 
 func invalid_reason(action: String) -> String:
@@ -147,7 +165,7 @@ func invalid_reason(action: String) -> String:
 		"potion":
 			if potions <= 0:
 				return "没有回复药"
-			if hp >= D.PLAYER_MAX_HP:
+			if hp >= player_max_hp:
 				return "气血已满"
 			return ""
 	return "未知动作"
@@ -239,7 +257,7 @@ func take_turn(action: String) -> Dictionary:
 			log_lines.append("沈砚摆出守势。")
 		"potion":
 			var before := hp
-			hp = mini(D.PLAYER_MAX_HP, hp + D.POTION_HEAL)
+			hp = mini(player_max_hp, hp + D.POTION_HEAL)
 			potions -= 1
 			result["heal"] = hp - before
 			log_lines.append("沈砚使用回复药，回复 %d 点气血。" % result["heal"])

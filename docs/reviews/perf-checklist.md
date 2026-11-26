@@ -1,6 +1,6 @@
 # 性能静态审查清单 · 《山河剑行》
 
-- 审查对象：服务器工程 `/home/xiaoyan/games/godogen-shanhe-fe`，快照 commit `ad785ce`（抓取 2026-11-21 00:07 UTC），本地副本 `perf/src/`
+- 审查对象：服务器工程 `<project>`，快照 commit `ad785ce`（抓取 2026-11-21 00:07 UTC），本地副本 `perf/src/`
 - 预算口径：以工程内 `docs/shanhe_android_perf_budget.md` 为准（默认档 30fps、draw call ≤300、primitives ≤600k、同屏唯一材质 ≤30）
 - **没有任何真机/渲染实测**（服务器无 GPU，软件 Vulkan 的 FPS 不可信）。除特别注明外，所有量级是【静态估算】，需用 `perf/probe/` 的探针确认
 - **快照处于重构中间态**：`player.gd`/`npc.gd` 已改成 Sprite3D 广告牌方案，但 `world_builder.gd:932-941` 还在给 `WorldNpc` 写已删除的 `dirs/model_path/height_px/...` 字段 → 当前这条 HEAD 跑探索场景大概率报 `Invalid set index`。所以旧 GLB/骨骼相关结论只对战斗场景有效，探索按「Sprite3D 最终形态」评估

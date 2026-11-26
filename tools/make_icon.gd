@@ -3,14 +3,16 @@ extends SceneTree
 ## 运行：godot --headless --path . -s tools/make_icon.gd
 
 func _init() -> void:
-	var src := load("res://docs/ref-characters-v3/shenyan_portrait_v2.png") as Texture2D
+	var src := load("res://assets/portraits/shenyan_portrait.png") as Texture2D
 	if src == null:
-		push_error("portrait missing")
+		# docs/ 不进导出包，脚本以前直连它，一换机器就断。改走 assets/，
+		# 并给出明确失败信息而不是静默产出空白图标。
+		push_error("make_icon: 找不到 res://assets/portraits/shenyan_portrait.png")
 		quit(1)
 		return
 	var img := src.get_image()
 	img.convert(Image.FORMAT_RGBA8)
-	# 661×1060 立绘：取上半身方形，居中裁切。
+	# 立绘按高 800 归一：取上方偏下的方形区域做头肩，居中裁切。
 	var side := mini(img.get_height(), img.get_width())
 	var region := Rect2i((img.get_width() - side) / 2, 60, side, side)
 	region = region.intersection(Rect2i(0, 0, img.get_width(), img.get_height()))

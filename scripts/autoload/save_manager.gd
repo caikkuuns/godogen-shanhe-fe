@@ -26,7 +26,11 @@ func _abs(path: String) -> String:
 
 func save_state(data: Dictionary, path: String = SAVE_PATH) -> Dictionary:
 	# Consume the test hook first so no early return can leave it armed.
-	var inject := test_fail_stage
+	# 第10轮修复：注入钩子只在 debug 构建里生效，正式包即使被外部设值也不会
+	# 触发写失败（之前它直接活在产品代码路径上）。
+	var inject := ""
+	if OS.is_debug_build():
+		inject = test_fail_stage
 	test_fail_stage = ""
 	var payload := data.duplicate(true)
 	payload["version"] = VERSION
@@ -75,7 +79,27 @@ func save_state(data: Dictionary, path: String = SAVE_PATH) -> Dictionary:
 		return {"ok": false, "error": "存档替换失败（%s）" % error_string(err)}
 	return {"ok": true, "error": "", "path": path, "version": VERSION}
 
+## 主存档不可用时降级读 .bak。
+## 第10轮修复：save_state 一直在写 .bak，但 load_state 从不读它——主档坏掉
+## （写一半断电、校验失败）就等于存档直接丢失。这里补上恢复路径。
 func load_state(path: String = SAVE_PATH) -> Dictionary:
+	var primary := _load_one(path)
+	if bool(primary.get("ok", false)):
+		return primary
+	var backup := _load_one(_bak_path(path))
+	if bool(backup.get("ok", false)):
+		backup["recovered"] = true
+		backup["note"] = "主存档不可用（%s），已从 .bak 备份恢复" % str(primary.get("error", ""))
+		return backup
+	if bool(primary.get("missing", false)) and not bool(backup.get("missing", false)):
+		# 主档不存在但备份在（上次改名中途断掉），用备份的内容但如实报告
+		backup["recovered"] = true
+		backup["note"] = "主存档缺失，已从 .bak 备份恢复"
+		return backup
+	return primary
+
+
+func _load_one(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		return {"ok": false, "error": "尚无存档", "missing": true, "data": {}}
 	var f := FileAccess.open(path, FileAccess.READ)

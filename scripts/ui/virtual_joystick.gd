@@ -104,6 +104,16 @@ func cancel_touch() -> void:
 	if _touch_index != -1:
 		_release()
 
+
+## 第10轮修复：HUD 被隐藏（进对话、切战斗）时摇杆的输入动作不会自动松开——
+## _input 在不可见时直接 return，连松手的 touch-release 都收不到，value 卡在
+## 非零，玩家会带着一个看不见的方向一直走。这里在可见性变化时强制归零。
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_VISIBILITY_CHANGED, NOTIFICATION_EXIT_TREE:
+			if _touch_index != -1 or _active or value != Vector2.ZERO:
+				_release()
+
 func _draw() -> void:
 	var base_alpha := 0.34 if not _active else 0.72
 	var center := _center

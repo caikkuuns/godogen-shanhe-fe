@@ -11,6 +11,9 @@ uniform vec4 albedo_tint : source_color = vec4(1.0);
 uniform vec3 fill_color : source_color = vec3(0.86, 0.86, 0.88);
 uniform float albedo_gain : hint_range(0.5, 3.0) = 1.0;
 uniform float hole_grow : hint_range(0.0, 0.03) = 0.006;
+// 与 toon_char_front.gdshader 的 gutter_enabled 同一个开关：背面 pass 的
+// robe_speckle 判定也是「按颜色猜布料」，贴图已做 UV 岛扩张时一并关掉。
+uniform float gutter_enabled : hint_range(0.0, 1.0) = 1.0;
 
 void vertex() {
 	VERTEX += NORMAL * hole_grow;
@@ -27,7 +30,7 @@ void fragment() {
 	bool skin = lum > 0.28 && c.r >= c.g - 0.03 && c.r > c.b
 		&& (c.r > c.b + 0.018 || (lum > 0.48 && c.r > c.b + 0.006));
 	bool trim = c.b > c.r + 0.07 && c.b > c.g + 0.04 && chroma > 0.10;
-	bool robe_speckle = !skin && !trim && chroma < 0.16 && lum >= 0.12 && lum < 0.92
+	bool robe_speckle = gutter_enabled > 0.5 && !skin && !trim && chroma < 0.16 && lum >= 0.12 && lum < 0.92
 		&& abs(c.r - c.g) < 0.09 && abs(c.g - c.b) < 0.12
 		&& c.r <= c.b + 0.006;
 	if (robe_speckle) {

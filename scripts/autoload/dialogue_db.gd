@@ -8,11 +8,11 @@ const DB_PATHS := [
 	"res://data/chapter3-dialogue.json",
 ]
 const PORTRAITS := {
-	"shenyan": "res://docs/ref-characters-v3/shenyan_portrait_v2.png",
-	"linzhaowan": "res://docs/ref-characters-v3/linzhaowan_portrait_v2.png",
-	"mingcheng": "res://docs/ref-characters-v3/npc/mingcheng_portrait_v3.png",
-	"zhoubo": "res://docs/ref-characters-v3/npc/zhoubo_portrait_v3.png",
-	"liheng": "res://docs/ref-characters-v3/npc/liheng_portrait_v3.png",
+	"shenyan": "res://assets/portraits/shenyan_portrait.png",
+	"linzhaowan": "res://assets/portraits/linzhaowan_portrait.png",
+	"mingcheng": "res://assets/portraits/mingcheng_portrait.png",
+	"zhoubo": "res://assets/portraits/zhoubo_portrait.png",
+	"liheng": "res://assets/portraits/liheng_portrait.png",
 }
 
 var db: Dictionary = {}

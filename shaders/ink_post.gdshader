@@ -15,7 +15,11 @@ void fragment() {
 	vec2 uv = UV;
 	float d = distance(uv, vec2(0.5));
 	float vig = smoothstep(0.34, 0.92, d) * vignette_strength;
-	float n = hash(uv * vec2(1920.0, 1080.0) + floor(TIME * 12.0)) - 0.5;
+	// 第10轮：颗粒按真实渲染分辨率采样。之前硬编码 1920x1080，换到 2K/720p
+	// 屏幕上颗粒要么变成砖块要么糊成一片。以短边 1080 归一，颗粒的视觉大小
+	// 与分辨率解耦，1080p 下的取整结果和旧版完全一致。
+	vec2 res = vec2(1.0) / SCREEN_PIXEL_SIZE;
+	float n = hash(uv * res / 1080.0 + floor(TIME * 12.0)) - 0.5;
 	float grain = n * grain_strength;
 	COLOR = vec4(vec3(0.02, 0.025, 0.03) + grain, clamp(vig + abs(grain) * 0.55, 0.0, 0.45));
 }

@@ -153,6 +153,7 @@ static func make_textured(tex: Texture2D, tint: float, fill: Color,
 	back.set_shader_parameter("albedo_tint", albedo)
 	back.set_shader_parameter("albedo_gain", gain)
 	back.set_shader_parameter("hole_grow", hole_grow)
+	back.set_shader_parameter("gutter_enabled", gutter)
 	back.set_shader_parameter("fill_color", Vector3(fill.r, fill.g, fill.b))
 	var hull := _make_hull()
 	back.next_pass = hull

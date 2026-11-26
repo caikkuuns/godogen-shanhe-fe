@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "grok-bot": {
-      "command": "/home/xiaoyan/tools/grokbot/run.sh",
-      "args": [],
-      "env": {}
-    }
-  }
-}

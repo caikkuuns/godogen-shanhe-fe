@@ -102,11 +102,17 @@ func _run(dialogue: Dictionary) -> void:
 					if GameState.conditions_ok(cconds):
 						options.append(choice)
 			if options.is_empty():
-				_abort()
+				# 第10轮修复：选项全被条件过滤掉时，之前直接 _abort()，把这段
+				# 对话前面已经累积的剧情标记一并丢掉。改成先提交已累积的标记，
+				# 再结束，避免玩家的进度被吞。
+				push_warning("DialogueRunner: 节点 %s 的选项全部被条件过滤，提前收尾"
+					% str(node.get("id", "?")))
+				_abort(true)
 				return
 			panel.show_choices(options)
 			var index: int = await panel.choice_selected
-			if not _active or _cancelled or index < 0:
+			# 上界也要校验：越界访问 options[index] 会直接抛错。
+			if not _active or _cancelled or index < 0 or index >= options.size():
 				_abort()
 				return
 			var choice: Dictionary = options[index]
@@ -135,9 +141,15 @@ func _run(dialogue: Dictionary) -> void:
 	_pending_effects.clear()
 	finished.emit(committed, false, reward_count)
 
-func _abort() -> void:
+## 中止本段对话。
+## commit_pending=true 时先把已经累积的 flags 落到 GameState——选项被条件
+## 全部过滤掉属于"剧本设计得走不下去了"，不是玩家取消，前面读到的剧情
+## 标记不该一起丢掉。
+func _abort(commit_pending: bool = false) -> void:
 	if not _active:
 		return
+	if commit_pending and not _pending_flags.is_empty():
+		GameState.commit_dialogue_flags(_pending_flags)
 	_active = false
 	_cancelled = false
 	current_dialogue_id = ""

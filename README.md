@@ -54,7 +54,7 @@ Godot 4.7.2 / GDScript / Mobile renderer，横屏 1920×1080（20:9 时 canvas_i
 export PATH=$HOME/.local/bin:$PATH
 godot --headless --path . -s tools/bake_character_meshes.gd  # 改过网格优化器后重跑
 GODOT=godot bash tests/run_all.sh          # 145/145 + UI 4/4 + BREATH + FOOT_LOCK(5 角色) + WORLD 10/10
-PROJ=$(pwd) bash ~/games/perf/run-probe.sh # 软件渲染探针
+PROJ=$(pwd) bash <project>/../perf/run-probe.sh # 软件渲染探针
 ```
 
 本轮数字与对比见 `REPORT.md`。

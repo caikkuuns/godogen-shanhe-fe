@@ -97,9 +97,17 @@ func _build_status() -> void:
 	_avatar.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_avatar.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_avatar.clip_contents = true
-	# v3 立绘不在本包内：改用现有的 docs/ref-characters/shenyan_portrait.png。
-	var portrait_path := "res://docs/ref-characters-v3/shenyan_portrait_v2.png"
-	if ResourceLoader.exists(portrait_path):
+	# 立绘统一放在 assets/portraits/。docs/ 不进导出包（见 EXPORT.txt），
+	# 之前指向 res://docs/ref-characters-v3/ 的路径在出包后必然静默失效。
+	var portrait_path := ""
+	for candidate: String in [
+		"res://assets/portraits/shenyan_portrait.png",
+		"res://assets/portraits/unknown_portrait.png",
+	]:
+		if ResourceLoader.exists(candidate):
+			portrait_path = candidate
+			break
+	if portrait_path != "":
 		var atlas := AtlasTexture.new()
 		atlas.atlas = load(portrait_path)
 		# 只取头肩部分做头像，避免整幅半身像缩成小人。

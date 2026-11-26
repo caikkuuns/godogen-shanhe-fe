@@ -5,10 +5,10 @@
 服务器上已建**共享裸仓库**：
 
 ```
-/DATA/GameDev/repos/shanhe.git      # 63MB，master 分支
+<server>/repos/shanhe.git      # 63MB，master 分支
 ```
 
-工作副本：`~/games/godogen-shanhe-fe`（origin 已指向裸仓库）。
+工作副本：`<project>`（origin 已指向裸仓库）。
 
 ### Bot 侧怎么拿到同一份文件（二选一）
 

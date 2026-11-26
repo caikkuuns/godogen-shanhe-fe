@@ -16,7 +16,7 @@
   - `assets/fonts/shanhe_serif.otf`（23.3 MB）、`assets/branding/` 图标
 - **排除**：`incoming/`（410 MB TripoSR 中间产物）、`captures/`（截图）、`docs/ref-characters*`（51 MB 参考图）、`generated/`、`backups/`
 - **验证**：未登录访问 API 返回 404；`private: true`；未在任何文件中发现服务器密码 / IP / 令牌
-- **来源**：服务器 `~/games/godogen-shanhe-fe`，HEAD `55cb7b3`（第十轮地形亮度校准）
+- **来源**：服务器 `<project>`，HEAD `55cb7b3`（第十轮地形亮度校准）
 
 ### 已进仓库的关键改动（来自服务器历史）
 | 提交 | 内容 |
@@ -39,5 +39,5 @@
 
 ## 已知问题
 
-- 服务器 SSH 偶发在 banner 阶段被断（`Connection closed by 100.85.162.93 port 22`）
+- 服务器 SSH 偶发在 banner 阶段被断（SSH banner 阶段被断）
 - 团队的 DS Bot 权限预设需用户在 UI 手动设成「完全权限」，否则每次执行命令都要点通过
